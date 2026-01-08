@@ -54,6 +54,7 @@ gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Alt>f']"
 # visuals
 gsettings set org.gnome.desktop.interface enable-animations false
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+gsettings set org.gnome.desktop.interface accent-color 'yellow'
 gsettings set org.gnome.desktop.background picture-uri-dark "'file://$DOTFILES/share/wallpaper.png'"
 git clone https://github.com/Karmenzind/monaco-nerd-fonts /tmp/monaco-nerd-fonts || true
 sudo cp -r /tmp/monaco-nerd-fonts/fonts/ /usr/share/fonts/monaco-nerd-fonts
@@ -90,3 +91,4 @@ cp $DOTFILES/config/firefox/user.js $FF_PROFILE/user.js
 
 # clean random junk
 sudo rm -f /usr/share/applications/{avahi-discover,bssh,bvnc,qvidcap,qv4l2}.desktop
+n
