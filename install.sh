@@ -91,4 +91,3 @@ cp $DOTFILES/config/firefox/user.js $FF_PROFILE/user.js
 
 # clean random junk
 sudo rm -f /usr/share/applications/{avahi-discover,bssh,bvnc,qvidcap,qv4l2}.desktop
-n
