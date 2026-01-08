@@ -36,3 +36,5 @@ tree
 meson
 ninja
 go
+jq
+htop
