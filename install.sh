@@ -59,12 +59,21 @@ sudo cp -r /tmp/monaco-nerd-fonts/fonts/ /usr/share/fonts/monaco-nerd-fonts
 gsettings set org.gnome.desktop.interface monospace-font-name 'Monaco Nerd Font 11'
 gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'firefox.desktop', 'org.gnome.Ptyxis.desktop']"
 
-# terminal stuff
+# terminal
 gsettings set org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/profile0/ palette 'Dark Pastel'
 gsettings set org.gnome.Ptyxis default-profile-uuid 'profile0'
 gsettings set org.gnome.Ptyxis profile-uuids "['profile0']"
 gsettings set org.gnome.Ptyxis restore-window-size false
 gsettings set org.gnome.Ptyxis restore-session false
+
+# music player
+gsettings set com.github.neithern.g4music blur-mode 0
+gsettings set com.github.neithern.g4music gapless-playback false
+gsettings set com.github.neithern.g4music pitch-correction false
+gsettings set com.github.neithern.g4music playback-speed 1.10
+gsettings set com.github.neithern.g4music rotate-cover false
+gsettings set com.github.neithern.g4music show-peak false
+gsettings set com.github.neithern.g4music sort-mode 5
 
 # firefox
 timeout 1s firefox --headless 2>/dev/null || true
