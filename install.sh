@@ -75,12 +75,12 @@ sudo sed -i 's/Name=Ptyxis/Name=Terminal/' /usr/share/applications/org.gnome.Pty
 # music player
 flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music blur-mode 0
 flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music gapless-playback false
-flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music pitch-correction false
 flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music playback-speed 1.10
 flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music rotate-cover false
 flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music show-peak false
 flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music sort-mode 5
 flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music rotate-cover false
+# flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music pitch-correction false
 
 # firefox
 timeout 1s firefox --headless 2>/dev/null || true
