@@ -66,7 +66,7 @@ gsettings set org.gnome.Ptyxis restore-window-size false
 gsettings set org.gnome.Ptyxis restore-session false
 
 # firefox
-timeout 1s firefox --headless 2>/dev/null
+timeout 1s firefox --headless 2>/dev/null || true
 FF_PROFILE=$(find $HOME/.mozilla/firefox -maxdepth 1 -type d -name "*.default-release" | head -n 1)
-cp $DOTFILES/config/firefox/user.js $FF_PROFILE/user.js
 curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
+cp $DOTFILES/config/firefox/user.js $FF_PROFILE/user.js
