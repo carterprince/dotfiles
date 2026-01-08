@@ -12,13 +12,13 @@ mkdir -p $HOME/.local/bin
 rm -rf $HOME/.bash_profile
 
 # install stuff
-sudo pacman -S --noconfirm --needed $(cat packages.txt)
+sudo pacman -S --noconfirm --needed $(cat $DOTFILES/packages.txt)
 sudo systemctl enable gdm
 sudo systemctl enable NetworkManager --now
 if lspci | grep -i nvidia; then
-    sudo pacman -S --noconfirm --needed $(cat packages-desktop.txt)
+    sudo pacman -S --noconfirm --needed $(cat $DOTFILES/packages-desktop.txt)
 fi
-flatpak install -y $(cat flatpaks.txt)
+flatpak install -y $(cat $DOTFILES/flatpaks.txt)
 uv tool install spotdl
 
 # symlink configs
@@ -55,6 +55,7 @@ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.background picture-uri-dark "'file://$DOTFILES/share/wallpaper.png'"
 git clone https://github.com/Karmenzind/monaco-nerd-fonts /tmp/monaco-nerd-fonts || true
 sudo cp -r /tmp/monaco-nerd-fonts/fonts/ /usr/share/fonts/monaco-nerd-fonts
+# sudo fc-cache -fv
 gsettings set org.gnome.desktop.interface monospace-font-name 'Monaco Nerd Font 11'
 gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'firefox.desktop', 'org.gnome.Ptyxis.desktop']"
 

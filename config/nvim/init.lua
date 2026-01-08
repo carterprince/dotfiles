@@ -248,3 +248,35 @@ vim.api.nvim_create_autocmd({"CursorMoved", "TextChanged", "BufEnter"}, {
         end
     end
 })
+
+
+local man_group = vim.api.nvim_create_augroup("ManResize", { clear = true })
+local resize_timer = nil
+
+vim.api.nvim_create_autocmd("VimResized", {
+    group = man_group,
+    pattern = "*",
+    callback = function()
+        if vim.bo.filetype ~= "man" then return end
+
+        -- Kill any existing timer to prevent spamming
+        if resize_timer then
+            vim.loop.timer_stop(resize_timer)
+        end
+
+        -- Create a new timer that waits 100ms after the last resize event
+        resize_timer = vim.loop.new_timer()
+        resize_timer:start(100, 0, vim.schedule_wrap(function()
+            if vim.api.nvim_buf_is_valid(0) and vim.bo.filetype == "man" then
+                local view = vim.fn.winsaveview()
+                
+                -- Use the 'Man' command directly with the current buffer name (URI)
+                -- We escape it to handle parentheses correctly
+                local name = vim.fn.fnameescape(vim.fn.expand("%"))
+                vim.cmd("silent! Man " .. name)
+                
+                vim.fn.winrestview(view)
+            end
+        end))
+    end,
+})
