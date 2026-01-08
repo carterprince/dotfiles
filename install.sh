@@ -22,8 +22,8 @@ flatpak install -y $(cat flatpaks.txt)
 uv tool install spotdl
 
 # symlink configs
-ln -sf $DOTFILES/.bashrc $HOME/.bashrc && source $HOME/.bashrc
-ln -sf $DOTFILES/.profile $HOME/.profile && source $HOME/.profile
+ln -sf $DOTFILES/.bashrc $HOME/.bashrc
+ln -sf $DOTFILES/.profile $HOME/.profile
 ln -sf $DOTFILES/config/nvim/init.lua $HOME/.config/nvim/init.lua
 ln -sf $DOTFILES/config/mpv/mpv.conf $HOME/.config/mpv/mpv.conf
 ln -sf $DOTFILES/config/mpv/input.conf $HOME/.config/mpv/input.conf
