@@ -87,3 +87,6 @@ timeout 1s firefox --headless 2>/dev/null || true
 FF_PROFILE=$(find $HOME/.mozilla/firefox -maxdepth 1 -type d -name "*.default-release" | head -n 1)
 curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
 cp $DOTFILES/config/firefox/user.js $FF_PROFILE/user.js
+
+# clean random junk
+sudo rm -f /usr/share/applications/{avahi-discover,bssh,bvnc,qvidcap,qv4l2}.desktop
