@@ -59,10 +59,11 @@ gsettings set org.gnome.desktop.interface monospace-font-name 'Monaco Nerd Font 
 gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'firefox.desktop', 'org.gnome.Ptyxis.desktop']"
 
 # terminal stuff
-PTYXIS_PROFILE=$(gsettings get org.gnome.Ptyxis default-profile-uuid | sed "s/'//g")
-gsettings set org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/${PTYXIS_PROFILE}/ palette 'Dark Pastel'
-gsettings set org.gnome.Ptyxis restore-session false
+gsettings set org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/profile0/ palette 'Dark Pastel'
+gsettings set org.gnome.Ptyxis default-profile-uuid 'profile0'
+gsettings set org.gnome.Ptyxis profile-uuids "['profile0']"
 gsettings set org.gnome.Ptyxis restore-window-size false
+gsettings set org.gnome.Ptyxis restore-session false
 
 # firefox
 firefox --headless &
