@@ -1,5 +1,4 @@
 neovim
-typst
 bash-completion
 mpv
 flatpak
@@ -24,6 +23,7 @@ git
 dconf-editor
 xsel
 fastfetch
+typst
 wget
 curl
 networkmanager
@@ -31,3 +31,6 @@ man
 man-db
 less
 tree
+meson
+ninja
+go
