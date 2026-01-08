@@ -13,7 +13,7 @@ mv $HOME/.bash_profile $HOME/.bash_profile.bak || true
 mv $HOME/.bashrc $HOME/.bashrc.bak || true
 
 # install stuff
-sudo pacman -S --noconfirm --needed $(cat $DOTFILES/packages.txt)
+sudo pacman -Syyu --noconfirm --needed $(cat $DOTFILES/packages.txt)
 sudo pacman -R --noconfirm epiphany || true
 sudo systemctl enable gdm
 sudo systemctl enable NetworkManager --now
@@ -73,13 +73,14 @@ sudo sed -i 's/Icon=org.gnome.Ptyxis/Icon=org.gnome.Console/' /usr/share/applica
 sudo sed -i 's/Name=Ptyxis/Name=Terminal/' /usr/share/applications/org.gnome.Ptyxis.desktop
 
 # music player
-gsettings set com.github.neithern.g4music blur-mode 0
-gsettings set com.github.neithern.g4music gapless-playback false
-gsettings set com.github.neithern.g4music pitch-correction false
-gsettings set com.github.neithern.g4music playback-speed 1.10
-gsettings set com.github.neithern.g4music rotate-cover false
-gsettings set com.github.neithern.g4music show-peak false
-gsettings set com.github.neithern.g4music sort-mode 5
+flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music blur-mode 0
+flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music gapless-playback false
+flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music pitch-correction false
+flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music playback-speed 1.10
+flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music rotate-cover false
+flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music show-peak false
+flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music sort-mode 5
+flatpak run --command='gsettings' com.github.neithern.g4music set com.github.neithern.g4music rotate-cover false
 
 # firefox
 timeout 1s firefox --headless 2>/dev/null || true
