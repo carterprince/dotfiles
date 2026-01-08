@@ -11,6 +11,16 @@ mkdir -p $HOME/.local/bin
 # clean unwanted configs
 rm -rf $HOME/.bash_profile
 
+# install stuff
+sudo pacman -S --noconfirm --needed $(cat packages.txt)
+sudo systemctl enable gdm
+sudo systemctl enable NetworkManager --now
+if lspci | grep -i nvidia; then
+    sudo pacman -S --noconfirm --needed $(cat packages-desktop.txt)
+fi
+flatpak install -y $(cat flatpaks.txt)
+uv tool install spotdl
+
 # symlink configs
 ln -sf $DOTFILES/.bashrc $HOME/.bashrc && source $HOME/.bashrc
 ln -sf $DOTFILES/.profile $HOME/.profile && source $HOME/.profile
@@ -21,16 +31,6 @@ ln -sf $DOTFILES/config/mpv/input.conf $HOME/.config/mpv/input.conf
 sudo cp $DOTFILES/config/firefox/policies.json /etc/firefox/policies/policies.json
 sudo chmod 644 /etc/firefox/policies/policies.json
 cp $DOTFILES/bin/pfetch $HOME/.local/bin/pfetch
-
-# install stuff
-sudo pacman -S --noconfirm --needed $(cat packages.txt)
-sudo systemctl enable gdm
-sudo systemctl enable NetworkManager --now
-if lspci | grep -i nvidia; then
-    sudo pacman -S --noconfirm --needed $(cat packages-desktop.txt)
-fi
-flatpak install -y $(cat flatpaks.txt)
-uv tool install spotdl
 
 # keybinds
 gsettings set org.gnome.settings-daemon.plugins.media-keys volume-up "['<Alt><Shift>k']"
