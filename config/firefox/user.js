@@ -16,7 +16,9 @@ user_pref("browser.rights.3.shown", true);
 user_pref("doh-rollout.doneFirstRun", true);
 user_pref("toolkit.telemetry.reportingpolicy.firstRun", true);
 user_pref("datareporting.policy.firstRunURL", '');
-
+user_pref("widget.use-xdg-desktop-portal.file-picker", 1);
+user_pref("ui.key.menuAccessKeyFocuses", false);
+user_pref("xpinstall.signatures.required", false);
 // user_pref("datareporting.healthreport.uploadEnabled", false);
 // user_pref("datareporting.policy.dataSubmissionPolicyNotifiedTime", 1766890412377);
 user_pref("browser.uiCustomization.state", '{"placements":{"widget-overflow-fixed-list":[],"unified-extensions-area":[],"nav-bar":["back-button","forward-button","stop-reload-button","customizableui-special-spring1","vertical-spacer","urlbar-container","customizableui-special-spring2","downloads-button","fxa-toolbar-menu-button","unified-extensions-button"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"vertical-tabs":[],"PersonalToolbar":["personal-bookmarks"]},"seen":["developer-button","screenshot-button"],"dirtyAreaCache":["nav-bar","vertical-tabs","toolbar-menubar","TabsToolbar","PersonalToolbar"],"currentVersion":23,"newElementCount":3}');

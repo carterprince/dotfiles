@@ -4,6 +4,14 @@
       "uBlock0@raymondhill.net": {
         "installation_mode": "force_installed",
         "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
+      },
+      "4chanx@gay.homo": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/4chanx/latest.xpi"
+      },
+      "{a34e6974-7b0f-46a8-9092-a970cd732422}": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/spotify-playback-speed/latest.xpi"
       }
     }
   }

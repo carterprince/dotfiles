@@ -9,10 +9,12 @@ sudo mkdir -p /etc/firefox/policies/
 mkdir -p $HOME/.local/bin
 
 # clean unwanted configs
-rm -rf $HOME/.bash_profile
+mv $HOME/.bash_profile $HOME/.bash_profile.bak || true
+mv $HOME/.bashrc $HOME/.bashrc.bak || true
 
 # install stuff
 sudo pacman -S --noconfirm --needed $(cat $DOTFILES/packages.txt)
+sudo pacman -R --noconfirm epiphany || true
 sudo systemctl enable gdm
 sudo systemctl enable NetworkManager --now
 if lspci | grep -i nvidia; then
@@ -65,6 +67,10 @@ gsettings set org.gnome.Ptyxis default-profile-uuid 'profile0'
 gsettings set org.gnome.Ptyxis profile-uuids "['profile0']"
 gsettings set org.gnome.Ptyxis restore-window-size false
 gsettings set org.gnome.Ptyxis restore-session false
+mkdir -p $HOME/.local/share/icons/
+wget -O $HOME/.local/share/icons/org.gnome.Console.svg "https://gitlab.gnome.org/GNOME/console/-/raw/main/data/org.gnome.Console.svg?ref_type=heads&inline=false"
+sudo sed -i 's/Icon=org.gnome.Ptyxis/Icon=org.gnome.Console/' /usr/share/applications/org.gnome.Ptyxis.desktop
+sudo sed -i 's/Name=Ptyxis/Name=Terminal/' /usr/share/applications/org.gnome.Ptyxis.desktop
 
 # music player
 gsettings set com.github.neithern.g4music blur-mode 0
