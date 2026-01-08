@@ -1,5 +1,7 @@
 #!/bin/bash -ex
 
+sudo -v
+
 # helper variables/functions
 DOTFILES="$HOME/.local/src/dotfiles"
 
@@ -90,4 +92,4 @@ curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme
 cp $DOTFILES/config/firefox/user.js $FF_PROFILE/user.js
 
 # clean random junk
-sudo rm -f /usr/share/applications/{avahi-discover,bssh,bvnc,qvidcap,qv4l2}.desktop
+sudo rm -f /usr/share/applications/{avahi-discover,bssh,bvnc,qvidcap,qv4l2,*openjdk}.desktop
