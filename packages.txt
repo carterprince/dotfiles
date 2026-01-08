@@ -6,6 +6,7 @@ gnome-shell
 papers
 firefox
 ptyxis
+vte-common
 python
 python-pandas
 python-seaborn
