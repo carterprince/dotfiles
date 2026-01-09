@@ -29,7 +29,9 @@ uv tool install spotdl
 ln -sf $DOTFILES/.bashrc $HOME/.bashrc
 ln -sf $DOTFILES/.profile $HOME/.profile
 ln -sf $DOTFILES/config/nvim/init.lua $HOME/.config/nvim/init.lua
-ln -sf $DOTFILES/config/mpv/mpv.conf $HOME/.config/mpv/mpv.conf
+ln -sf $DOTFILES/config/nvim/init.lua $HOME/.config/nvim/init.lua
+mkdir -p $HOME/.local/share/bash
+sudo cp $DOTFILES/config/shell/command-not-found.bash $HOME/.local/share/bash/command-not-found.bash
 ln -sf $DOTFILES/config/mpv/input.conf $HOME/.config/mpv/input.conf
 # sudo ln -sf $DOTFILES/config/firefox/policies.json /etc/firefox/policies/policies.json
 sudo cp $DOTFILES/config/firefox/policies.json /etc/firefox/policies/policies.json

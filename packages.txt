@@ -40,3 +40,4 @@ go
 jq
 htop
 jdk-openjdk
+pkgfile
