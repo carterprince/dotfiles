@@ -24,6 +24,7 @@ if lspci | grep -i nvidia; then
 fi
 flatpak install -y $(cat $DOTFILES/flatpaks.txt)
 uv tool install spotdl
+sudo pkgfile --update
 
 # symlink configs
 ln -sf $DOTFILES/.bashrc $HOME/.bashrc
