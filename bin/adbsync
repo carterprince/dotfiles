@@ -1,0 +1,175 @@
+#!/usr/bin/env python3
+"""
+Smart ADB Push - Only syncs changed files to Android device
+Usage: python adb_sync.py <source_folder> <dest_folder> [options]
+"""
+
+import os
+import subprocess
+import sys
+from pathlib import Path
+from typing import Dict, Set, Tuple
+
+def run_adb(cmd: list) -> str:
+    """Run adb command and return output"""
+    try:
+        result = subprocess.run(
+            ['adb'] + cmd,
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        return result.stdout
+    except subprocess.CalledProcessError as e:
+        print(f"ADB Error: {e.stderr}")
+        sys.exit(1)
+
+def get_local_files(source: Path) -> Dict[str, Tuple[int, float]]:
+    """Get local files with their size and modification time"""
+    files = {}
+    for file in source.rglob('*'):
+        if file.is_file():
+            rel_path = file.relative_to(source)
+            stat = file.stat()
+            files[str(rel_path)] = (stat.st_size, stat.st_mtime)
+    return files
+
+def get_remote_files(dest: str) -> Dict[str, int]:
+    """Get remote files with their sizes"""
+    files = {}
+    
+    # Check if destination exists
+    result = run_adb(['shell', f'test -d {dest} && echo exists'])
+    if 'exists' not in result:
+        return files
+    
+    # List all files with sizes
+    output = run_adb(['shell', f'find {dest} -type f -exec stat -c "%s %n" {{}} \\;'])
+    
+    for line in output.strip().split('\n'):
+        if not line:
+            continue
+        parts = line.split(maxsplit=1)
+        if len(parts) == 2:
+            size, path = parts
+            if path.startswith(dest):
+                rel_path = path[len(dest):].lstrip('/')
+                files[rel_path] = int(size)
+    
+    return files
+
+def sync_folders(source: str, dest: str, delete_extra: bool = False, verbose: bool = True):
+    """Sync source folder to destination, only transferring changed files"""
+    source_path = Path(source).resolve()
+    
+    if not source_path.exists():
+        print(f"Error: Source folder '{source}' does not exist")
+        sys.exit(1)
+    
+    if not source_path.is_dir():
+        print(f"Error: Source '{source}' is not a directory")
+        sys.exit(1)
+    
+    # Ensure destination path doesn't end with /
+    dest = dest.rstrip('/')
+    
+    print(f"Scanning local files in {source}...")
+    local_files = get_local_files(source_path)
+    
+    print(f"Scanning remote files in {dest}...")
+    remote_files = get_remote_files(dest)
+    
+    # Determine what needs to be done
+    to_push = []
+    to_delete = []
+    unchanged = []
+    
+    for rel_path, (size, mtime) in local_files.items():
+        if rel_path not in remote_files:
+            to_push.append(rel_path)
+        elif remote_files[rel_path] != size:
+            to_push.append(rel_path)
+        else:
+            unchanged.append(rel_path)
+    
+    if delete_extra:
+        for rel_path in remote_files:
+            if rel_path not in local_files:
+                to_delete.append(rel_path)
+    
+    # Print summary
+    print(f"\nSync Summary:")
+    print(f"  Local files: {len(local_files)}")
+    print(f"  Remote files: {len(remote_files)}")
+    print(f"  Files to push: {len(to_push)}")
+    print(f"  Files to delete: {len(to_delete)}")
+    print(f"  Unchanged files: {len(unchanged)}")
+    
+    if not to_push and not to_delete:
+        print("\n✓ Everything is already in sync!")
+        return
+    
+    # Create destination directory if it doesn't exist
+    if not remote_files:
+        print(f"\nCreating destination directory: {dest}")
+        run_adb(['shell', f'mkdir -p {dest}'])
+    
+    # Push changed files
+    if to_push:
+        print(f"\nPushing {len(to_push)} file(s)...")
+        for i, rel_path in enumerate(to_push, 1):
+            local_file = source_path / rel_path
+            remote_path = f"{dest}/{rel_path}"
+            
+            # Create parent directory on device
+            remote_dir = '/'.join(remote_path.split('/')[:-1])
+            run_adb(['shell', f'mkdir -p {remote_dir}'])
+            
+            if verbose:
+                print(f"  [{i}/{len(to_push)}] {rel_path}")
+            
+            run_adb(['push', str(local_file), remote_path])
+    
+    # Delete extra files
+    if to_delete:
+        print(f"\nDeleting {len(to_delete)} extra file(s)...")
+        for rel_path in to_delete:
+            remote_path = f"{dest}/{rel_path}"
+            if verbose:
+                print(f"  - {rel_path}")
+            run_adb(['shell', f'rm {remote_path}'])
+    
+    print("\n✓ Sync complete!")
+
+def main():
+    if len(sys.argv) < 3:
+        print("Usage: python adb_sync.py <source_folder> <dest_folder> [--delete] [--quiet]")
+        print("\nOptions:")
+        print("  --delete  Delete files on device that don't exist in source")
+        print("  --quiet   Suppress file-by-file output")
+        print("\nExample:")
+        print("  python adb_sync.py ./app/build/outputs /sdcard/myapp")
+        sys.exit(1)
+    
+    source = sys.argv[1]
+    dest = sys.argv[2]
+    delete_extra = '--delete' in sys.argv
+    verbose = '--quiet' not in sys.argv
+    
+    # Check if adb is available
+    try:
+        subprocess.run(['adb', 'version'], capture_output=True, check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        print("Error: adb not found. Please ensure Android SDK platform-tools are installed.")
+        sys.exit(1)
+    
+    # Check if device is connected
+    devices = run_adb(['devices'])
+    if 'device' not in devices or devices.count('\n') < 2:
+        print("Error: No Android device connected. Please connect a device and enable USB debugging.")
+        sys.exit(1)
+    
+    sync_folders(source, dest, delete_extra, verbose)
+
+if __name__ == '__main__':
+    main()

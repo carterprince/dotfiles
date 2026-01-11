@@ -7,12 +7,10 @@ DOTFILES="$HOME/.local/src/dotfiles"
 
 # create dirs
 mkdir -p $HOME/.config/{nvim,mpv}
-sudo mkdir -p /etc/firefox/policies/
-mkdir -p $HOME/.local/bin
 
 # clean unwanted configs
-mv $HOME/.bash_profile $HOME/.bash_profile.bak || true
-mv $HOME/.bashrc $HOME/.bashrc.bak || true
+mv -n "$HOME/.bash_profile" "$HOME/.bash_profile.bak" || true
+mv -n "$HOME/.bashrc" "$HOME/.bashrc.bak" || true
 
 # install stuff
 sudo pacman -Syyu --noconfirm --needed $(cat $DOTFILES/packages.txt)
@@ -27,17 +25,21 @@ uv tool install spotdl
 sudo pkgfile --update
 
 # symlink configs
-ln -sf $DOTFILES/.bashrc $HOME/.bashrc
-ln -sf $DOTFILES/.profile $HOME/.profile
+ln -sf $DOTFILES/config/shell/bashrc $HOME/.bashrc
+ln -sf $DOTFILES/config/shell/profile $HOME/.profile
+mkdir -p $HOME/.local/bin
+ln -sf $DOTFILES/bin/pfetch $HOME/.local/bin/pfetch
+ln -sf $DOTFILES/bin/adbsync $HOME/.local/bin/adbsync
+
 ln -sf $DOTFILES/config/nvim/init.lua $HOME/.config/nvim/init.lua
-ln -sf $DOTFILES/config/nvim/init.lua $HOME/.config/nvim/init.lua
+
 mkdir -p $HOME/.local/share/bash
 sudo cp $DOTFILES/config/shell/command-not-found.bash $HOME/.local/share/bash/command-not-found.bash
 ln -sf $DOTFILES/config/mpv/input.conf $HOME/.config/mpv/input.conf
-# sudo ln -sf $DOTFILES/config/firefox/policies.json /etc/firefox/policies/policies.json
-sudo cp $DOTFILES/config/firefox/policies.json /etc/firefox/policies/policies.json
+
+sudo mkdir -p /etc/firefox/policies/
+sudo ln -sf $DOTFILES/config/firefox/policies.json /etc/firefox/policies/policies.json
 sudo chmod 644 /etc/firefox/policies/policies.json
-cp $DOTFILES/bin/pfetch $HOME/.local/bin/pfetch
 
 # keybinds
 gsettings set org.gnome.settings-daemon.plugins.media-keys volume-up "['<Alt><Shift>k']"
@@ -46,11 +48,17 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys volume-mute "['<Alt><
 gsettings set org.gnome.settings-daemon.plugins.media-keys play "['<Alt><Shift>space']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Alt><Shift>l']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Alt><Shift>h']"
-gsettings set org.gnome.settings-daemon.plugins.media-keys media "['<Alt>m']"
+
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name 'Launch Terminal'
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command 'ptyxis --new-window'
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding '<Alt>Return'
-gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ name 'Launch Gapless'
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ command 'flatpak run com.github.neithern.g4music'
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ binding '<Alt>m'
+
+gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']"
+
 gsettings set org.gnome.desktop.wm.keybindings switch-applications "[]"
 gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Alt>Tab']"
 gsettings set org.gnome.desktop.wm.keybindings close "['<Alt>Delete']"
@@ -93,6 +101,15 @@ timeout 1s firefox --headless 2>/dev/null || true
 FF_PROFILE=$(find $HOME/.mozilla/firefox -maxdepth 1 -type d -name "*.default-release" | head -n 1)
 curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
 cp $DOTFILES/config/firefox/user.js $FF_PROFILE/user.js
+
+# default apps
+xdg-mime default firefox.desktop x-scheme-handler/http
+xdg-mime default firefox.desktop x-scheme-handler/https
+xdg-mime default nvim.desktop application/x-shellscript
+xdg-mime default nvim.desktop text/csv
+xdg-mime default nvim.desktop text/html
+xdg-mime default nvim.desktop text/plain
+xdg-mime default nvim.desktop text/x-shellscript
 
 # clean random junk
 sudo rm -f /usr/share/applications/{avahi-discover,bssh,bvnc,qvidcap,qv4l2,*openjdk}.desktop
