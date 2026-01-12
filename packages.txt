@@ -41,3 +41,5 @@ jq
 htop
 jdk-openjdk
 pkgfile
+7zip
+obsidian
