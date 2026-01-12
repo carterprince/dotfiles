@@ -15,7 +15,9 @@ sudo mkdir -p /etc/firefox/policies/
 mv -n "$HOME/.bash_profile" "$HOME/.bash_profile.bak" || true
 mv -n "$HOME/.bashrc" "$HOME/.bashrc.bak" || true
 
+
 # install stuff
+sudo sed -i '/\[multilib\]/,/Include/ s/^#//' /etc/pacman.conf
 sudo pacman -Syyu --noconfirm --needed $(cat $DOTFILES/packages.txt)
 sudo pacman -R --noconfirm epiphany || true
 sudo systemctl enable gdm
@@ -76,7 +78,7 @@ git clone https://github.com/Karmenzind/monaco-nerd-fonts /tmp/monaco-nerd-fonts
 sudo cp -r /tmp/monaco-nerd-fonts/fonts/ /usr/share/fonts/monaco-nerd-fonts
 # sudo fc-cache -fv
 gsettings set org.gnome.desktop.interface monospace-font-name 'Monaco Nerd Font 11'
-gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'firefox.desktop', 'org.gnome.Ptyxis.desktop', 'newseum.desktop']"
+gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'firefox.desktop', 'org.gnome.Ptyxis.desktop', 'newseum.desktop', 'obsidian.desktop']"
 
 # terminal
 gsettings set org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/profile0/ palette 'Dark Pastel'
