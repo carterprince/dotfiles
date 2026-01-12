@@ -6,7 +6,10 @@ sudo -v
 DOTFILES="$HOME/.local/src/dotfiles"
 
 # create dirs
-mkdir -p $HOME/.config/{nvim,mpv}
+mkdir -p $HOME/.config/{nvim,mpv,newseum}
+mkdir -p $HOME/.local/share/{bash,icons}
+mkdir -p $HOME/.local/bin
+sudo mkdir -p /etc/firefox/policies/
 
 # clean unwanted configs
 mv -n "$HOME/.bash_profile" "$HOME/.bash_profile.bak" || true
@@ -27,17 +30,13 @@ sudo pkgfile --update
 # symlink configs
 ln -sf $DOTFILES/config/shell/bashrc $HOME/.bashrc
 ln -sf $DOTFILES/config/shell/profile $HOME/.profile
-mkdir -p $HOME/.local/bin
 ln -sf $DOTFILES/bin/pfetch $HOME/.local/bin/pfetch
 ln -sf $DOTFILES/bin/adbsync $HOME/.local/bin/adbsync
-
 ln -sf $DOTFILES/config/nvim/init.lua $HOME/.config/nvim/init.lua
-
-mkdir -p $HOME/.local/share/bash
-sudo cp $DOTFILES/config/shell/command-not-found.bash $HOME/.local/share/bash/command-not-found.bash
+ln -sf $DOTFILES/config/newseum/feeds.csv $HOME/.config/newseum/feeds.csv
 ln -sf $DOTFILES/config/mpv/input.conf $HOME/.config/mpv/input.conf
 
-sudo mkdir -p /etc/firefox/policies/
+sudo cp $DOTFILES/config/shell/command-not-found.bash $HOME/.local/share/bash/command-not-found.bash
 sudo ln -sf $DOTFILES/config/firefox/policies.json /etc/firefox/policies/policies.json
 sudo chmod 644 /etc/firefox/policies/policies.json
 
@@ -59,7 +58,7 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/or
 
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ name 'Launch Newseum'
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ command 'gtk-launch newseum'
-gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ binding '<Alt>m'
+gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/ binding '<Alt>n'
 
 gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/']"
 
@@ -85,7 +84,6 @@ gsettings set org.gnome.Ptyxis default-profile-uuid 'profile0'
 gsettings set org.gnome.Ptyxis profile-uuids "['profile0']"
 gsettings set org.gnome.Ptyxis restore-window-size false
 gsettings set org.gnome.Ptyxis restore-session false
-mkdir -p $HOME/.local/share/icons/
 wget -O $HOME/.local/share/icons/org.gnome.Console.svg "https://gitlab.gnome.org/GNOME/console/-/raw/main/data/org.gnome.Console.svg?ref_type=heads&inline=false"
 sudo sed -i 's/Icon=org.gnome.Ptyxis/Icon=org.gnome.Console/' /usr/share/applications/org.gnome.Ptyxis.desktop
 sudo sed -i 's/Name=Ptyxis/Name=Terminal/' /usr/share/applications/org.gnome.Ptyxis.desktop
@@ -105,6 +103,12 @@ timeout 1s firefox --headless 2>/dev/null || true
 FF_PROFILE=$(find $HOME/.mozilla/firefox -maxdepth 1 -type d -name "*.default-release" | head -n 1)
 curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
 cp $DOTFILES/config/firefox/user.js $FF_PROFILE/user.js
+
+# newseum
+git clone https://github.com/carterprince/newseum $HOME/.local/src/newseum
+cd $HOME/.local/src/newseum
+./install.sh
+cd $HOME
 
 # default apps
 xdg-mime default firefox.desktop x-scheme-handler/http
