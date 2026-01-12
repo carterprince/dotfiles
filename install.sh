@@ -107,6 +107,7 @@ cp $DOTFILES/config/firefox/user.js $FF_PROFILE/user.js
 # newseum
 git clone https://github.com/carterprince/newseum $HOME/.local/src/newseum || true
 cd $HOME/.local/src/newseum
+git pull
 ./install.sh
 cd $HOME
 
