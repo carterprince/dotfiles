@@ -120,4 +120,4 @@ xdg-mime default nvim.desktop text/plain
 xdg-mime default nvim.desktop text/x-shellscript
 
 # clean random junk
-sudo rm -f /usr/share/applications/{avahi-discover,bssh,bvnc,qvidcap,qv4l2,*openjdk}.desktop
+sudo rm -f /usr/share/applications/{avahi-discover,bssh,bvnc,qvidcap,qv4l2,*openjdk,electron*}.desktop
