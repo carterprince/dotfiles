@@ -20,9 +20,11 @@ user_pref("widget.use-xdg-desktop-portal.file-picker", 1);
 user_pref("ui.key.menuAccessKeyFocuses", false);
 user_pref("xpinstall.signatures.required", false);
 user_pref("browser.sessionstore.resume_from_crash", false);
+user_pref("findbar.highlightAll", true);
+user_pref("browser.tabs.groups.enabled", false)
 // user_pref("datareporting.healthreport.uploadEnabled", false);
 // user_pref("datareporting.policy.dataSubmissionPolicyNotifiedTime", 1766890412377);
-user_pref("browser.uiCustomization.state", '{"placements":{"widget-overflow-fixed-list":[],"unified-extensions-area":[],"nav-bar":["back-button","forward-button","stop-reload-button","customizableui-special-spring1","vertical-spacer","urlbar-container","customizableui-special-spring2","downloads-button","fxa-toolbar-menu-button","unified-extensions-button"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"vertical-tabs":[],"PersonalToolbar":["personal-bookmarks"]},"seen":["developer-button","screenshot-button"],"dirtyAreaCache":["nav-bar","vertical-tabs","toolbar-menubar","TabsToolbar","PersonalToolbar"],"currentVersion":23,"newElementCount":3}');
+user_pref("browser.uiCustomization.state", '{"placements":{"widget-overflow-fixed-list":[],"unified-extensions-area":["myallychou_gmail_com-browser-action","_aecec67f-0d10-4fa7-b7c7-609a2db280cf_-browser-action"],"nav-bar":["back-button","forward-button","stop-reload-button","vertical-spacer","urlbar-container","customizableui-special-spring2","downloads-button","fxa-toolbar-menu-button","unified-extensions-button","ublock0_raymondhill_net-browser-action"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"vertical-tabs":[],"PersonalToolbar":["personal-bookmarks"]},"seen":["developer-button","screenshot-button","myallychou_gmail_com-browser-action","ublock0_raymondhill_net-browser-action","_aecec67f-0d10-4fa7-b7c7-609a2db280cf_-browser-action"],"dirtyAreaCache":["nav-bar","vertical-tabs","toolbar-menubar","TabsToolbar","PersonalToolbar","unified-extensions-area"],"currentVersion":23,"newElementCount":4}');
 
 // GNOME Theme stuff
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
