@@ -83,6 +83,7 @@ gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'fir
 # terminal
 gsettings set org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/profile0/ palette 'Dark Pastel'
 gsettings set org.gnome.Ptyxis default-profile-uuid 'profile0'
+gsettings set org.gnome.Ptyxis font-name 'Monaco Nerd Font Mono 15'
 gsettings set org.gnome.Ptyxis profile-uuids "['profile0']"
 gsettings set org.gnome.Ptyxis restore-window-size false
 gsettings set org.gnome.Ptyxis restore-session false
