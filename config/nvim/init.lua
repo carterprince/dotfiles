@@ -33,6 +33,7 @@ vim.opt.shortmess:append("A")
 
 -- Editor settings
 vim.opt.number = true
+vim.opt.linebreak = true
 vim.opt.expandtab = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
