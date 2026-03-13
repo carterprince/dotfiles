@@ -1,0 +1,107 @@
+{
+  "packages": [
+    { "arch": "neovim",                 "fedora": "neovim",                             "ubuntu": "neovim" },
+    { "arch": "bash-completion",        "fedora": "bash-completion",                    "ubuntu": "bash-completion" },
+    { "arch": "mpv",                    "fedora": "mpv",                                "ubuntu": "mpv" },
+    { "arch": "flatpak",                "fedora": "flatpak",                            "ubuntu": "flatpak" },
+    { "arch": "gnome-shell",            "fedora": "gnome-shell",                        "ubuntu": "gnome-shell" },
+    { "arch": "papers",                 "fedora": "gnome-papers" },
+    { "arch": "firefox",                "fedora": "firefox",                            "ubuntu": "firefox" },
+    { "arch": "ptyxis" },
+    { "arch": "baobab",                 "fedora": "baobab",                             "ubuntu": "baobab" },
+    { "arch": "python",                 "fedora": "python3",                            "ubuntu": "python3" },
+    { "arch": "python-pandas",          "fedora": "python3-pandas",                     "ubuntu": "python3-pandas" },
+    { "arch": "python-seaborn",         "fedora": "python3-seaborn",                    "ubuntu": "python3-seaborn" },
+    { "arch": "python-matplotlib",      "fedora": "python3-matplotlib",                 "ubuntu": "python3-matplotlib" },
+    { "arch": "python-scikit-learn",    "fedora": "python3-scikit-learn",               "ubuntu": "python3-scikit-learn" },
+    { "arch": "python-requests",        "fedora": "python3-requests",                   "ubuntu": "python3-requests" },
+    { "arch": "python-beautifulsoup4",  "fedora": "python3-beautifulsoup4",             "ubuntu": "python3-bs4" },
+    { "arch": "pipewire-jack",          "fedora": "pipewire-jack-audio-connection-kit", "ubuntu": "pipewire-jack" },
+    { "arch": ["noto-fonts", "noto-fonts-cjk"], "fedora": ["google-noto-fonts-common", "google-noto-cjk-fonts"], "ubuntu": ["fonts-noto", "fonts-noto-cjk"] },
+    { "arch": "gnome-tweaks",           "fedora": "gnome-tweaks",                       "ubuntu": "gnome-tweaks" },
+    { "arch": "gdm",                    "fedora": "gdm",                                "ubuntu": "gdm3" },
+    { "arch": "gnome-control-center",   "fedora": "gnome-control-center",               "ubuntu": "gnome-control-center" },
+    { "arch": "extension-manager",                                                       "ubuntu": "gnome-shell-extension-manager" },
+    { "arch": "uv",                     "fedora": "uv" },
+    { "arch": "git",                    "fedora": "git",                                "ubuntu": "git" },
+    { "arch": "dconf-editor",           "fedora": "dconf-editor",                       "ubuntu": "dconf-editor" },
+    { "arch": "xsel",                   "fedora": "xsel",                               "ubuntu": "xsel" },
+    { "arch": "fastfetch",              "fedora": "fastfetch" },
+    { "arch": "typst",                  "fedora": "typst" },
+    { "arch": "wget",                   "fedora": "wget",                               "ubuntu": "wget" },
+    { "arch": "curl",                   "fedora": "curl",                               "ubuntu": "curl" },
+    { "arch": "networkmanager",         "fedora": "NetworkManager",                     "ubuntu": "network-manager" },
+    { "arch": "man-db",                 "fedora": "man-db",                             "ubuntu": "man-db" },
+    { "arch": "less",                   "fedora": "less",                               "ubuntu": "less" },
+    { "arch": "tree",                   "fedora": "tree",                               "ubuntu": "tree" },
+    { "arch": "meson",                  "fedora": "meson",                              "ubuntu": "meson" },
+    { "arch": "ninja",                  "fedora": "ninja-build",                        "ubuntu": "ninja-build" },
+    { "arch": "go",                     "fedora": "golang",                             "ubuntu": "golang" },
+    { "arch": "jq",                     "fedora": "jq",                                 "ubuntu": "jq" },
+    { "arch": "htop",                   "fedora": "htop",                               "ubuntu": "htop" },
+    { "arch": "jdk-openjdk",            "fedora": "java-latest-openjdk",                "ubuntu": "default-jdk" },
+    { "arch": "pkgfile" },
+    { "arch": "7zip",                   "fedora": "p7zip",                              "ubuntu": "p7zip-full" },
+    { "arch": "obsidian" },
+    { "flatpak": "org.prismlauncher.PrismLauncher" },
+    { "flatpak": "io.github.kolunmi.Bazaar" },
+    { "flatpak": "com.github.neithern.g4music" },
+    { "arch": "nvidia-open-dkms",       "fedora": "akmod-nvidia",                       "ubuntu": "nvidia-driver",       "desktop": true },
+    { "arch": "cuda",                   "fedora": "xorg-x11-drv-nvidia-cuda",           "ubuntu": "nvidia-cuda-toolkit", "desktop": true }
+  ],
+  "links": [
+    { "src": "config/shell/bashrc",                  "dst": "~/.bashrc" },
+    { "src": "config/shell/inputrc",                 "dst": "~/.inputrc" },
+    { "src": "config/shell/profile",                 "dst": "~/.profile" },
+    { "src": "bin/pfetch",                           "dst": "~/.local/bin/pfetch" },
+    { "src": "bin/adbsync",                          "dst": "~/.local/bin/adbsync" },
+    { "src": "config/nvim/init.lua",                 "dst": "~/.config/nvim/init.lua" },
+    { "src": "config/newseum/feeds.csv",             "dst": "~/.config/newseum/feeds.csv" },
+    { "src": "config/mpv/input.conf",                "dst": "~/.config/mpv/input.conf" },
+    { "src": "config/shell/command-not-found.bash",  "dst": "~/.local/share/bash/command-not-found.bash", "sudo": true },
+    { "src": "config/firefox/policies.json",         "dst": "/etc/firefox/policies/policies.json", "sudo": true }
+  ],
+  "gsettings": {
+    "org.gnome.desktop.interface": {
+      "enable-animations": "false",
+      "color-scheme": "'prefer-dark'",
+      "accent-color": "'yellow'",
+      "monospace-font-name": "'Monaco Nerd Font 11'"
+    },
+    "org.gnome.desktop.wm.keybindings": {
+      "switch-applications": "[]",
+      "switch-windows": "['<Alt>Tab']",
+      "close": "['<Alt>Delete']",
+      "toggle-maximized": "['<Alt>f']"
+    },
+    "org.gnome.settings-daemon.plugins.media-keys": {
+      "volume-up":   "['<Alt><Shift>k']",
+      "volume-down": "['<Alt><Shift>j']",
+      "volume-mute": "['<Alt><Shift>m']",
+      "play":        "['<Alt><Shift>space']",
+      "next":        "['<Alt><Shift>l']",
+      "previous":    "['<Alt><Shift>h']"
+    },
+    "org.gnome.desktop.background": {
+      "picture-uri-dark": "'file://$DOTFILES/share/wallpaper.png'"
+    },
+    "org.gnome.shell": {
+      "favorite-apps": "['org.gnome.Nautilus.desktop', 'firefox.desktop', 'org.gnome.Ptyxis.desktop', 'newseum.desktop', 'obsidian.desktop']"
+    },
+    "org.gnome.Ptyxis": {
+      "default-profile-uuid": "'profile0'",
+      "font-name": "'Monaco Nerd Font Mono 15'",
+      "profile-uuids": "['profile0']",
+      "restore-window-size": "false",
+      "restore-session": "false"
+    },
+    "org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/profile0/": {
+      "palette": "'Dark Pastel'"
+    }
+  },
+  "keybindings": [
+    { "name": "Launch Terminal", "command": "ptyxis --new-window",                        "binding": "<Alt>Return" },
+    { "name": "Launch Music",    "command": "sh -c 'mpv --shuffle --speed=1.08 ~/Music/Main/'", "binding": "<Alt>m" },
+    { "name": "Launch Newseum",  "command": "gtk-launch newseum",                          "binding": "<Alt>n" }
+  ]
+}

@@ -1,0 +1,93 @@
+#!/usr/bin/env ok
+
+!sudo -v
+
+# helper variables
+DOTFILES = HOME + "/.local/src/dotfiles"
+
+# create dirs
+!mkdir -p $HOME/.config/{nvim,mpv,newseum}
+!mkdir -p $HOME/.local/share/{bash,icons}
+!mkdir -p $HOME/.local/bin
+!sudo mkdir -p /etc/firefox/policies/
+
+# clean unwanted configs
+!mv -n "$HOME/.bash_profile" "$HOME/.bash_profile.bak" || true
+!mv -n "$HOME/.bashrc" "$HOME/.bashrc.bak" || true
+
+# load config
+distro = $(grep "^ID=" /etc/os-release | cut -d= -f2).strip('"')
+config = json("config.json")
+packages = config["packages"]
+is_desktop = ok(lspci | grep -i nvidia)
+
+# install packages
+distro_packages = ' '.join(
+    pkg
+    for p in packages
+    if distro in p and (not p.get("desktop") or is_desktop)
+    for pkg in ([p[distro]] if isinstance(p[distro], str) else p[distro])
+)
+flatpaks = ' '.join(p["flatpak"] for p in packages if "flatpak" in p)
+
+if distro == "arch":
+    !sudo sed -i "/\[multilib\]/,/Include/ s/^#//" /etc/pacman.conf
+    !sudo pacman -Syyu --noconfirm --needed $distro_packages
+    !sudo pacman -R --noconfirm epiphany || true
+    !sudo pkgfile --update
+elif distro == "fedora":
+    !sudo dnf install -y $distro_packages
+elif distro == "ubuntu":
+    !sudo apt update
+    !sudo apt install -y $distro_packages
+
+!flatpak install -y $flatpaks
+!uv tool install spotdl
+
+!sudo systemctl enable gdm
+!sudo systemctl enable NetworkManager --now
+
+# symlink configs
+for link in config["links"]:
+    src = DOTFILES + "/" + link["src"]
+    dst = link["dst"].replace("~", HOME)
+    if link.get("sudo"):
+        !sudo ln -sf $src $dst
+    else:
+        !ln -sf $src $dst
+!sudo chmod 644 /etc/firefox/policies/policies.json
+
+# gsettings
+for schema, settings in config["gsettings"].items():
+    for key, val in settings.items():
+        !gsettings set $schema $key "$val"
+
+# custom keybindings
+keybindings = config["keybindings"]
+for i, kb in enumerate(keybindings):
+    path = f"org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom{i}/"
+    name = kb["name"]
+    command = kb["command"]
+    binding = kb["binding"]
+    !gsettings set $path name "$name"
+    !gsettings set $path command "$command"
+    !gsettings set $path binding "$binding"
+kb_paths = "[" + ", ".join(f"'/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom{i}/'" for i in range(len(keybindings))) + "]"
+!gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "$kb_paths"
+
+# visuals
+!git clone https://github.com/Karmenzind/monaco-nerd-fonts /tmp/monaco-nerd-fonts || true
+!sudo cp -r /tmp/monaco-nerd-fonts/fonts/ /usr/share/fonts/monaco-nerd-fonts
+!wget -O $HOME/.local/share/icons/org.gnome.Console.svg "https://gitlab.gnome.org/GNOME/console/-/raw/main/data/org.gnome.Console.svg?ref_type=heads&inline=false"
+!sudo sed -i 's/Icon=org.gnome.Ptyxis/Icon=org.gnome.Console/' /usr/share/applications/org.gnome.Ptyxis.desktop
+!sudo sed -i 's/Name=Ptyxis/Name=Terminal/' /usr/share/applications/org.gnome.Ptyxis.desktop
+
+# firefox
+!timeout 1s firefox --headless 2>/dev/null || true
+FF_PROFILE = $(find $HOME/.mozilla/firefox -maxdepth 1 -type d -name "*.default-release" | head -n 1)
+print("FF_PROFILE:", FF_PROFILE)
+!curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
+!cp $DOTFILES/config/firefox/user.js $FF_PROFILE/user.js
+
+# clean random junk
+!sudo rm -f /usr/share/applications/{avahi-discover,bssh,bvnc,qvidcap,qv4l2,*openjdk,electron*}.desktop

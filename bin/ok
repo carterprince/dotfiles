@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+import re, sys, linecache, traceback, subprocess
+HEADER = """import subprocess, shutil, os, sys
+HOME = os.path.expanduser("~")
+USER = os.environ.get("USER", "")
+def has(cmd): return shutil.which(cmd) is not None
+def ok(cmd): return subprocess.run(cmd, shell=True, executable='/bin/bash', capture_output=True).returncode == 0
+def _run(cmd, _locals=None):
+    env = os.environ.copy()
+    if _locals:
+        for k, v in _locals.items():
+            if isinstance(v, (str, int, float)) and not k.startswith('_'):
+                env[k] = str(v)
+    subprocess.run(cmd, shell=True, executable='/bin/bash', check=True, env=env)
+def _capture(cmd, _locals=None):
+    env = os.environ.copy()
+    if _locals:
+        for k, v in _locals.items():
+            if isinstance(v, (str, int, float)) and not k.startswith('_'):
+                env[k] = str(v)
+    r = subprocess.run(cmd, shell=True, executable='/bin/bash', text=True, capture_output=True, env=env)
+    if r.stderr and r.returncode == 0:
+        print(r.stderr, end='', file=sys.stderr)
+    if r.returncode != 0:
+        raise subprocess.CalledProcessError(r.returncode, cmd, r.stdout, r.stderr)
+    return r.stdout.strip()
+def lines(path):
+    with open(os.path.expanduser(str(path))) as f:
+        return [l for l in f.read().splitlines() if l and not l.startswith('#')]
+def cat(path):
+    with open(os.path.expanduser(str(path))) as f:
+        return f.read()
+def json(path):
+    import json as _json
+    with open(os.path.expanduser(str(path))) as f:
+        return _json.load(f)
+"""
+
+def quote_shell_arg(arg, fn):
+    """For ok() and has() — argument is always a shell command string, always quote it."""
+    if (arg.startswith('"') and arg.endswith('"')) or \
+       (arg.startswith("'") and arg.endswith("'")):
+        return f"{fn}({arg})"
+    if '{' in arg:
+        return f'{fn}(f"{arg}")'
+    return f"{fn}({repr(arg)})"
+
+def quote_path_arg(arg, fn):
+    """For lines(), cat(), json() — argument can be a path template or a Python expression."""
+    if (arg.startswith('"') and arg.endswith('"')) or \
+       (arg.startswith("'") and arg.endswith("'")):
+        if '{' in arg:
+            return f"{fn}(f{arg})"
+        return f"{fn}({arg})"
+    if '{' in arg:
+        return f'{fn}(f"{arg}")'
+    if re.match(r'^[A-Za-z_]\w*$', arg):
+        return f"{fn}({arg})"
+    return f"{fn}({repr(arg)})"
+
+def compile_line(line):
+    # !cmd -> _run("cmd", locals())
+    m = re.match(r"^(\s*)!(.*)", line)
+    if m:
+        indent, cmd = m.group(1), m.group(2).strip()
+        return f"{indent}_run({repr(cmd)}, locals())"
+
+    # echo "msg" -> print(f"msg")
+    m = re.match(r'^(\s*)echo\s+"(.*)"$', line)
+    if m:
+        indent, msg = m.group(1), m.group(2)
+        return f'{indent}print(f"{msg}")'
+
+    # $[cmd] -> _capture('cmd', locals()).splitlines()
+    def replace_capture_list(m):
+        inner = m.group(1).strip()
+        return f"_capture({repr(inner)}, locals()).splitlines()"
+    line = re.sub(r'\$\[([^\]]+)\]', replace_capture_list, line)
+
+    # $(cmd) -> _capture('cmd', locals())
+    def replace_capture(m):
+        inner = m.group(1).strip()
+        return f"_capture({repr(inner)}, locals())"
+    line = re.sub(r'\$\(([^)]+)\)', replace_capture, line)
+
+    # ok(cmd) — always a shell command string
+    def quote_ok_arg(m):
+        return quote_shell_arg(m.group(1).strip(), 'ok')
+    line = re.sub(r'\bok\(([^)]+)\)', quote_ok_arg, line)
+
+    # has(cmd) — always a shell command string
+    def quote_has_arg(m):
+        return quote_shell_arg(m.group(1).strip(), 'has')
+    line = re.sub(r'has\(([^)]+)\)', quote_has_arg, line)
+
+    # lines(path) — path or Python expression
+    def quote_lines_arg(m):
+        return quote_path_arg(m.group(1).strip(), 'lines')
+    line = re.sub(r'lines\(([^)]+)\)', quote_lines_arg, line)
+
+    # cat(path) — path or Python expression
+    def quote_cat_arg(m):
+        return quote_path_arg(m.group(1).strip(), 'cat')
+    line = re.sub(r'cat\(([^)]+)\)', quote_cat_arg, line)
+
+    # json(path) — path or Python expression
+    def quote_json_arg(m):
+        return quote_path_arg(m.group(1).strip(), 'json')
+    line = re.sub(r'json\(([^)]+)\)', quote_json_arg, line)
+
+    # echo <expr>
+    m = re.match(r'^(\s*)echo\s+(.+)$', line)
+    if m:
+        indent, expr = m.group(1), m.group(2).strip()
+        return f'{indent}print({expr})'
+
+    return line
+
+def compile_source(source):
+    out = [HEADER.rstrip('\n')]
+    for line in source.splitlines():
+        out.append(compile_line(line))
+    return '\n'.join(out)
+
+def main():
+    if len(sys.argv) < 2:
+        print("usage: ok [-c] <script.ok>", file=sys.stderr)
+        sys.exit(1)
+    compile_only = '-c' in sys.argv
+    path = next(a for a in sys.argv[1:] if not a.startswith('-'))
+    with open(path) as f:
+        source = f.read()
+    compiled = compile_source(source)
+    if compile_only:
+        print(compiled)
+        return
+    filename = f"<ok:{path}>"
+    lines_list = compiled.splitlines(keepends=True)
+    linecache.cache[filename] = (len(compiled), None, lines_list, filename)
+    code = compile(compiled, filename, 'exec')
+    header_lines = len(HEADER.splitlines())
+    try:
+        exec(code, {})
+    except subprocess.CalledProcessError as e:
+        frames = traceback.extract_tb(e.__traceback__)
+        script_frame = next((f for f in frames if f.filename == filename), None)
+        if script_frame:
+            src_lineno = script_frame.lineno - header_lines
+            print(f"ok: {path}:{src_lineno}: {e}", file=sys.stderr)
+        else:
+            print(f"\nok: command failed (exit {e.returncode}): {e.cmd}", file=sys.stderr)
+        sys.exit(e.returncode)
+    except FileNotFoundError as e:
+        frames = traceback.extract_tb(e.__traceback__)
+        script_frame = next((f for f in frames if f.filename == filename), None)
+        if script_frame:
+            src_lineno = script_frame.lineno - header_lines
+            print(f"\nok: {path}:{src_lineno}: {e}", file=sys.stderr)
+        else:
+            print(f"\nok: {e}", file=sys.stderr)
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
