@@ -7,6 +7,7 @@ Usage: python adb_sync.py <source_folder> <dest_folder> [options]
 import os
 import subprocess
 import sys
+import shlex  # Added to safely escape shell paths
 from pathlib import Path
 from typing import Dict, Set, Tuple
 
@@ -38,13 +39,13 @@ def get_remote_files(dest: str) -> Dict[str, int]:
     """Get remote files with their sizes"""
     files = {}
     
-    # Check if destination exists
-    result = run_adb(['shell', f'test -d {dest} && echo exists'])
+    # Check if destination exists (Safely quoted)
+    result = run_adb(['shell', f'test -d {shlex.quote(dest)} && echo exists'])
     if 'exists' not in result:
         return files
     
-    # List all files with sizes
-    output = run_adb(['shell', f'find {dest} -type f -exec stat -c "%s %n" {{}} \\;'])
+    # List all files with sizes (Safely quoted)
+    output = run_adb(['shell', f'find {shlex.quote(dest)} -type f -exec stat -c "%s %n" {{}} \\;'])
     
     for line in output.strip().split('\n'):
         if not line:
@@ -109,10 +110,10 @@ def sync_folders(source: str, dest: str, delete_extra: bool = False, verbose: bo
         print("\n✓ Everything is already in sync!")
         return
     
-    # Create destination directory if it doesn't exist
+    # Create destination directory if it doesn't exist (Safely quoted)
     if not remote_files:
         print(f"\nCreating destination directory: {dest}")
-        run_adb(['shell', f'mkdir -p {dest}'])
+        run_adb(['shell', f'mkdir -p {shlex.quote(dest)}'])
     
     # Push changed files
     if to_push:
@@ -121,13 +122,14 @@ def sync_folders(source: str, dest: str, delete_extra: bool = False, verbose: bo
             local_file = source_path / rel_path
             remote_path = f"{dest}/{rel_path}"
             
-            # Create parent directory on device
+            # Create parent directory on device (Safely quoted)
             remote_dir = '/'.join(remote_path.split('/')[:-1])
-            run_adb(['shell', f'mkdir -p {remote_dir}'])
+            run_adb(['shell', f'mkdir -p {shlex.quote(remote_dir)}'])
             
             if verbose:
                 print(f"  [{i}/{len(to_push)}] {rel_path}")
             
+            # adb push handles spaces natively because arguments are passed as a list
             run_adb(['push', str(local_file), remote_path])
     
     # Delete extra files
@@ -137,7 +139,8 @@ def sync_folders(source: str, dest: str, delete_extra: bool = False, verbose: bo
             remote_path = f"{dest}/{rel_path}"
             if verbose:
                 print(f"  - {rel_path}")
-            run_adb(['shell', f'rm {remote_path}'])
+            # Safely quoted for deletion
+            run_adb(['shell', f'rm {shlex.quote(remote_path)}'])
     
     print("\n✓ Sync complete!")
 

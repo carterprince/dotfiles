@@ -58,6 +58,8 @@
     { "src": "config/nvim/init.lua",                 "dst": "~/.config/nvim/init.lua" },
     { "src": "config/newseum/feeds.csv",             "dst": "~/.config/newseum/feeds.csv" },
     { "src": "config/mpv/input.conf",                "dst": "~/.config/mpv/input.conf" },
+    { "src": "config/mpv/input.conf",                "dst": "~/.config/mpv/input.conf" },
+    { "src": "config/mpv/scripts/nightcore.lua",     "dst": "~/.config/mpv/scripts/nightcore.lua" },
     { "src": "config/shell/command-not-found.bash",  "dst": "~/.local/share/bash/command-not-found.bash", "sudo": true },
     { "src": "config/firefox/policies.json",         "dst": "/etc/firefox/policies/policies.json", "sudo": true }
   ],

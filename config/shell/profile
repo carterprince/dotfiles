@@ -4,4 +4,9 @@ export MANPAGER="less -R --use-color -DP+yk -Dd+y -Du+y"
 export MANROFFOPT="-c"
 export PKGFILE_PROMPT_INSTALL_MISSING=1
 
+export OMP_NUM_THREADS=8
+export OPENBLAS_NUM_THREADS=8
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
 [ -f "$HOME/.secrets" ] && source $HOME/.secrets

@@ -6,10 +6,7 @@
 DOTFILES = HOME + "/.local/src/dotfiles"
 
 # create dirs
-!mkdir -p $HOME/.config/{nvim,mpv,newseum}
-!mkdir -p $HOME/.local/share/{bash,icons}
-!mkdir -p $HOME/.local/bin
-!sudo mkdir -p /etc/firefox/policies/
+!mkdir -p $HOME/.local/share/icons
 
 # clean unwanted configs
 !mv -n "$HOME/.bash_profile" "$HOME/.bash_profile.bak" || true
@@ -54,8 +51,10 @@ for link in config["links"]:
     src = DOTFILES + "/" + link["src"]
     dst = link["dst"].replace("~", HOME)
     if link.get("sudo"):
+        !sudo mkdir -p $(dirname "$dst")
         !sudo ln -sf $src $dst
     else:
+        !mkdir -p $(dirname "$dst")
         !ln -sf $src $dst
 !sudo chmod 644 /etc/firefox/policies/policies.json
 
