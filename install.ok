@@ -93,7 +93,7 @@ else:
 
 # firefox
 !timeout 1s firefox --headless 2>/dev/null || true
-FF_PROFILE = $(find $HOME/.config/firefox -maxdepth 1 -type d -name "*.default-release" | head -n 1)
+FF_PROFILE = $(find $HOME/.config/mozilla/firefox -maxdepth 1 -type d -name "*.default-release" | head -n 1)
 print("FF_PROFILE:", FF_PROFILE)
 !curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
 !cp $DOTFILES/config/firefox/user.js $FF_PROFILE/user.js
