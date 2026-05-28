@@ -36,7 +36,7 @@ elif distro == "fedora":
     !flatpak remote-delete fedora --force || true
     !flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
     !sudo dnf install -y $distro_packages
-    !sudo mv /usr/share/applications/org.mozilla.firefox.desktop /usr/share/applications/firefox.desktop
+    !sudo mv /usr/share/applications/org.mozilla.firefox.desktop /usr/share/applications/firefox.desktop || true
 elif distro == "ubuntu":
     !sudo apt update
     !sudo apt install -y $distro_packages
