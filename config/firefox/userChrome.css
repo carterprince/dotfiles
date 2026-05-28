@@ -1,0 +1,3 @@
+@import "firefox-gnome-theme/userChrome.css";
+
+#firefox-view-button { display: none !important; }
