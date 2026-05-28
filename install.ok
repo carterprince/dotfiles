@@ -86,8 +86,8 @@ if distro != "fedora":
     !sudo sed -i 's/Name=Ptyxis/Name=Terminal/' /usr/share/applications/org.gnome.Ptyxis.desktop
 
 # set monitor scale
-monitor = $(gdctl show | grep -oP '(?<=Monitors: )[\w-]+' | head -n1).strip()
-width = int($(gdctl show | grep -oP '\d+(?=x\d+@[\d.]+ \[current\])' | head -n1).strip())
+monitor = $(gdctl show | awk '/Monitors: /{print $NF; exit}')
+width = int($(gdctl show | grep current | grep -oE '[0-9]+x[0-9]+' | head -n1 | cut -dx -f1))
 scale = 2 if width >= 3840 else 1
 !gdctl set --logical-monitor --primary --monitor $monitor --scale $scale
 
