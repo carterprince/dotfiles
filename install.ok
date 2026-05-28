@@ -98,6 +98,7 @@ FF_PROFILE = $(find $HOME/.config/mozilla/firefox -maxdepth 1 -type d -name "*.d
 print("FF_PROFILE:", FF_PROFILE)
 !curl -s -o- https://raw.githubusercontent.com/rafaelmardojai/firefox-gnome-theme/master/scripts/install-by-curl.sh | bash
 !cp $DOTFILES/config/firefox/user.js $FF_PROFILE/user.js
+!cp $DOTFILES/config/firefox/userChrome.css $FF_PROFILE/chrome/userChrome.css
 
 # clean random junk
 !sudo rm -f /usr/share/applications/{avahi-discover,bssh,bvnc,qvidcap,qv4l2,*openjdk,electron*}.desktop
