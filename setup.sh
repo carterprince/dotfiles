@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./bin/ok ./install.ok
+python3 setup.py
