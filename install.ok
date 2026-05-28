@@ -80,7 +80,7 @@ kb_paths = "[" + ", ".join(f"'/org/gnome/settings-daemon/plugins/media-keys/cust
 # visuals
 !git clone https://github.com/Karmenzind/monaco-nerd-fonts /tmp/monaco-nerd-fonts || true
 !sudo cp -r /tmp/monaco-nerd-fonts/fonts/ /usr/share/fonts/monaco-nerd-fonts
-!sudo fc-cache -fv
+!sudo fc-cache -fv > /dev/null
 if distro != "fedora":
     !wget -O $HOME/.local/share/icons/org.gnome.Console.svg "https://gitlab.gnome.org/GNOME/console/-/raw/main/data/org.gnome.Console.svg?ref_type=heads&inline=false"
     !sudo sed -i 's/Icon=org.gnome.Ptyxis/Icon=org.gnome.Console/' /usr/share/applications/org.gnome.Ptyxis.desktop
