@@ -85,11 +85,11 @@ if distro != "fedora":
     !sudo sed -i 's/Icon=org.gnome.Ptyxis/Icon=org.gnome.Console/' /usr/share/applications/org.gnome.Ptyxis.desktop
     !sudo sed -i 's/Name=Ptyxis/Name=Terminal/' /usr/share/applications/org.gnome.Ptyxis.desktop
 
-is_4k = ok(grep -qE "3840x2160|4096x2160" /sys/class/drm/card*-*/modes 2>/dev/null)
-if is_4k:
-    !gsettings set org.gnome.desktop.interface scaling-factor 2
-else:
-    !gsettings set org.gnome.desktop.interface scaling-factor 1
+# set monitor scale
+monitor = $(gdctl show | grep -oP '(?<=Monitors: )[\w-]+' | head -n1).strip()
+width = int($(gdctl show | grep -oP '\d+(?=x\d+@[\d.]+ \[current\])' | head -n1).strip())
+scale = 2 if width >= 3840 else 1
+!gdctl set --logical-monitor --primary --monitor $monitor --scale $scale
 
 # firefox
 !timeout 1s firefox --headless 2>/dev/null || true
