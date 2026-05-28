@@ -103,7 +103,7 @@
   },
   "keybindings": [
     { "name": "Launch Terminal", "command": "ptyxis --new-window",                        "binding": "<Alt>Return" },
-    { "name": "Launch Music",    "command": "sh -c 'mpv --shuffle --speed=1.08 ~/Music/Main/'", "binding": "<Alt>m" },
+    { "name": "Launch Music",    "command": "sh -c 'mpv --shuffle --speed=1.08 ~/Music/'", "binding": "<Alt>m" },
     { "name": "Launch Newseum",  "command": "gtk-launch newseum",                          "binding": "<Alt>n" }
   ]
 }

@@ -62,6 +62,7 @@ if vim.fn.isdirectory(undodir) == 0 then
     vim.fn.mkdir(undodir, "p")
 end
 vim.opt.undodir = undodir
+vim.filetype.add({ extension = { ok = "python" } })
 
 -- Mouse configuration
 vim.opt.mouse = "a"
