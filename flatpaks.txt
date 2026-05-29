@@ -1,3 +1,0 @@
-org.prismlauncher.PrismLauncher
-io.github.kolunmi.Bazaar
-com.github.neithern.g4music
