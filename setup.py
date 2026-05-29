@@ -68,6 +68,10 @@ for schema, settings in config["gsettings"].items():
     for key, val in settings.items():
         sh(f'gsettings set {schema} {key} "{val}"')
 
+# mime stuff
+for mimetype, app in config["associations"].items():
+    sh(f"xdg-mime default {app} {mimetype}")
+
 # custom keybindings
 keybindings = config["keybindings"]
 for i, kb in enumerate(keybindings):

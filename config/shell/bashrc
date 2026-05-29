@@ -4,6 +4,13 @@ alias poweroff='sudo systemctl poweroff -i'
 alias vim='nvim'
 alias tree='tree -aC -I .git -I .venv'
 alias push-music='adbsync ~/Music/YouTube/ /sdcard/Music/Vault --delete'
+function fetch-music() {
+    CURRENT_DIR=$(pwd)
+    cd ~/Music/
+    spotdl https://open.spotify.com/playlist/11W3XzmooIheItSqZjpMKs
+    ytmdl
+    cd ${CURRENT_DIR}
+}
 
 PS1="\[\e[1;31m\]\w\[\e[0m\] \$ "
 

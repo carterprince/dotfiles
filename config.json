@@ -3,6 +3,7 @@
     { "arch": "neovim",                 "fedora": "neovim",                             "ubuntu": "neovim" },
     { "arch": "bash-completion",        "fedora": "bash-completion",                    "ubuntu": "bash-completion" },
     { "arch": "mpv",                    "fedora": "mpv",                                "ubuntu": "mpv" },
+    { "arch": "mpv-mpris",              "fedora": "mpv-mpris",                          "ubuntu": "mpv-mpris" },
     { "arch": "flatpak",                "fedora": "flatpak",                            "ubuntu": "flatpak" },
     { "arch": "gnome-shell",            "fedora": "gnome-shell",                        "ubuntu": "gnome-shell" },
     { "arch": "papers",                 "fedora": "papers" },
@@ -65,6 +66,9 @@
     { "src": "config/shell/command-not-found.bash",  "dst": "~/.local/share/bash/command-not-found.bash", "sudo": true },
     { "src": "config/firefox/policies.json",         "dst": "/etc/firefox/policies/policies.json", "sudo": true }
   ],
+  "associations": {
+    "audio/mpeg": "mpv.desktop"
+  },
   "gsettings": {
     "org.gnome.desktop.interface": {
       "enable-animations": "false",
