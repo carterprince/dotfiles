@@ -46,6 +46,8 @@
     { "flatpak": "org.prismlauncher.PrismLauncher" },
     { "flatpak": "io.github.kolunmi.Bazaar" },
     { "flatpak": "com.github.neithern.g4music" },
+    { "uv": "spotdl" },
+    { "uv": "git+https://github.com/carterprince/ytmdl" },
     { "arch": "nvidia-open-dkms",       "fedora": "akmod-nvidia",                       "ubuntu": "nvidia-driver",       "desktop": true },
     { "arch": "cuda",                   "fedora": "xorg-x11-drv-nvidia-cuda",           "ubuntu": "nvidia-cuda-toolkit", "desktop": true }
   ],
@@ -58,7 +60,7 @@
     { "src": "config/nvim/init.lua",                 "dst": "~/.config/nvim/init.lua" },
     { "src": "config/newseum/feeds.csv",             "dst": "~/.config/newseum/feeds.csv" },
     { "src": "config/mpv/input.conf",                "dst": "~/.config/mpv/input.conf" },
-    { "src": "config/mpv/input.conf",                "dst": "~/.config/mpv/input.conf" },
+    { "src": "config/mpv/mpv.conf",                "dst": "~/.config/mpv/mpv.conf" },
     { "src": "config/mpv/scripts/nightcore.lua",     "dst": "~/.config/mpv/scripts/nightcore.lua" },
     { "src": "config/shell/command-not-found.bash",  "dst": "~/.local/share/bash/command-not-found.bash", "sudo": true },
     { "src": "config/firefox/policies.json",         "dst": "/etc/firefox/policies/policies.json", "sudo": true }

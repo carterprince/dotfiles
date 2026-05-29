@@ -42,7 +42,11 @@ elif distro == "ubuntu":
     sh(f"sudo apt install -y {distro_packages}")
 
 sh(f"flatpak install -y {flatpaks}")
-sh("uv tool install spotdl")
+
+# python/uv tools
+tools = [p["uv"] for p in packages if "uv" in p]
+for tool in tools:
+    sh(f"uv tool install {tool}")
 
 sh("sudo systemctl enable gdm")
 sh("sudo systemctl enable NetworkManager --now")
