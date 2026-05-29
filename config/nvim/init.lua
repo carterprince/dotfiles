@@ -168,7 +168,6 @@ map("n", "<C-l>", ":NvimTreeClose<CR><Esc>")
 
 -- Custom Workflow mappings
 map("n", "W", "viwo<Esc>~h")
-map("n", "M", ":!run %<CR>")
 map("n", "<leader>q", ":q!<CR>")
 map("n", "<leader>w", ":w!<CR>")
 map("n", "gx", ":!xdg-open <C-R><C-A><CR><Esc>")
@@ -213,18 +212,20 @@ vim.api.nvim_create_user_command('NumberMarkdownList', function()
     local buf = vim.api.nvim_get_current_buf()
     local start_line = vim.fn.line("'<")
     local end_line = vim.fn.line("'>")
-    
+
     local lines = vim.api.nvim_buf_get_lines(buf, start_line - 1, end_line, false)
-    
+
+    local count = 0
     for i, line in ipairs(lines) do
-        -- Only number non-empty lines
         if not line:match("^%s*$") then
-            line = line:gsub("^%s*[%d-*+]+%.?%s*", "") -- Remove existing bullets
-            line = line:gsub("^%s*(.-)%s*$", "%1")     -- Trim whitespace
-            lines[i] = i .. ". " .. line
+            count = count + 1
+            line = line:gsub("^%s*%d+%.%s*", "")  -- strip "1. " style
+            line = line:gsub("^%s*[-*+]%s*", "")  -- strip "- " / "* " / "+ " style
+            line = line:gsub("^%s*(.-)%s*$", "%1") -- trim
+            lines[i] = count .. ". " .. line
         end
     end
-    
+
     vim.api.nvim_buf_set_lines(buf, start_line - 1, end_line, false, lines)
 end, {range = true})
 map('v', '<C-n>', ':NumberMarkdownList<CR>')
