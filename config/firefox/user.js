@@ -21,7 +21,7 @@ user_pref("ui.key.menuAccessKeyFocuses", false);
 user_pref("xpinstall.signatures.required", false);
 user_pref("browser.sessionstore.resume_from_crash", false);
 user_pref("findbar.highlightAll", true);
-user_pref("browser.tabs.groups.enabled", false)
+user_pref("browser.tabs.groups.enabled", false);
 // user_pref("datareporting.healthreport.uploadEnabled", false);
 // user_pref("datareporting.policy.dataSubmissionPolicyNotifiedTime", 1766890412377);
 user_pref("browser.uiCustomization.state", '{"placements":{"widget-overflow-fixed-list":[],"unified-extensions-area":["_4a8e4a26-171e-438f-90ef-d3f3f4b652b4_-browser-action","nightcoremode_youtube-browser-action"],"nav-bar":["back-button","forward-button","stop-reload-button","customizableui-special-spring1","vertical-spacer","urlbar-container","customizableui-special-spring2","downloads-button","fxa-toolbar-menu-button","unified-extensions-button","ublock0_raymondhill_net-browser-action"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"vertical-tabs":[],"PersonalToolbar":["personal-bookmarks"]},"seen":["developer-button","ublock0_raymondhill_net-browser-action","_4a8e4a26-171e-438f-90ef-d3f3f4b652b4_-browser-action","nightcoremode_youtube-browser-action","screenshot-button"],"dirtyAreaCache":["nav-bar","vertical-tabs","unified-extensions-area","toolbar-menubar","TabsToolbar","PersonalToolbar"],"currentVersion":23,"newElementCount":3}');

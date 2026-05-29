@@ -7,14 +7,10 @@
       "{4a8e4a26-171e-438f-90ef-d3f3f4b652b4}": { "installation_mode": "force_installed", "install_url": "https://addons.mozilla.org/firefox/downloads/latest/mintube/latest.xpi" },
       "yt-not-interested@local": { "installation_mode": "force_installed", "install_url": "https://addons.mozilla.org/firefox/downloads/latest/youtube-quick-not-interested/latest.xpi" },
       "nightcoremode@youtube": { "installation_mode": "force_installed", "install_url": "https://addons.mozilla.org/firefox/downloads/latest/nightcore-mode-for-youtube/latest.xpi" }
-    }
-  },
-  "3rdparty": {
-    "Extensions": {
-      "firefoxbeta@tampermonkey.net": {
-        "jsonImport": [
-          { "hash": "1:66849534c66c5bd384f39f7fb5c7c5bdbc8611bfedab082762cb943f853637d0", "url": "http://localhost:12121/tm.json", "haltOnError": true, "installAsSystemScripts": false }
-        ]
+    },
+    "3rdparty": {
+      "Extensions": {
+        "firefox@tampermonkey.net": { "jsonImport": [ { "hash": "1:87f28f887bd35d3be8ea7b97ebcc28c75a65d0021c6b7fd5cf33841d1d9d49fd", "url": "https://raw.githubusercontent.com/carterprince/dotfiles/refs/heads/main/config/firefox/tm.json", "haltOnError": true, "installAsSystemScripts": true } ] }
       }
     }
   }
