@@ -37,7 +37,7 @@ elif distro == "fedora":
     sh("flatpak remote-delete fedora --force || true")
     sh("flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo")
     sh(f"sudo dnf install -y {distro_packages}")
-    sh("sudo mv /usr/share/applications/org.mozilla.firefox.desktop /usr/share/applications/firefox.desktop || true")
+    # sh("sudo mv /usr/share/applications/org.mozilla.firefox.desktop /usr/share/applications/firefox.desktop || true")
 elif distro == "ubuntu":
     sh("sudo apt update")
     sh(f"sudo apt install -y {distro_packages}")
