@@ -89,9 +89,11 @@ if distro != "fedora":
 
 # set monitor scale
 monitor = cap("gdctl show | awk '/Monitor /{print $2; exit}'")
-width = int(cap("gdctl show | grep -A1 'Current mode' | grep -oE '[0-9]+x[0-9]+' | head -n1 | cut -dx -f1"))
+res = cap("gdctl show | grep -A1 'Current mode' | grep -oE '[0-9]+x[0-9]+' | head -n1")
+mode = cap(f"gdctl show --modes | grep -oE '{res}@[0-9.]+' | sort -t@ -k2 -rn | head -n1")
+width = int(res.split('x')[0])
 scale = 2 if width >= 3840 else 1
-sh(f"gdctl set --persistent --logical-monitor --primary --monitor {monitor} --scale {scale}")
+sh(f"gdctl set --persistent --logical-monitor --primary --monitor {monitor} --mode {mode} --scale {scale}")
 
 # firefox
 sh("timeout 1s firefox --headless 2>/dev/null || true")
