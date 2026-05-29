@@ -88,7 +88,7 @@
       "picture-uri-dark": "'file://$DOTFILES/share/wallpaper.png'"
     },
     "org.gnome.shell": {
-      "favorite-apps": "['org.gnome.Nautilus.desktop', 'firefox.desktop', 'org.gnome.Ptyxis.desktop', 'newseum.desktop', 'obsidian.desktop']"
+      "favorite-apps": "['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Ptyxis.desktop', 'newseum.desktop', 'obsidian.desktop']"
     },
     "org.gnome.Ptyxis": {
       "default-profile-uuid": "'profile0'",
