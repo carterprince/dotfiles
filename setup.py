@@ -72,6 +72,9 @@ for schema, settings in config["gsettings"].items():
 for mimetype, app in config["associations"].items():
     sh(f"xdg-mime default {app} {mimetype}")
 
+for ext in config["extensions"]:
+    sh(f"""gdbus call --session --dest org.gnome.Shell.Extensions --object-path /org/gnome/Shell/Extensions --method org.gnome.Shell.Extensions.InstallRemoteExtension "{ext}" """)
+
 # custom keybindings
 keybindings = config["keybindings"]
 for i, kb in enumerate(keybindings):

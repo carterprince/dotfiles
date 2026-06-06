@@ -47,10 +47,14 @@
     { "flatpak": "org.prismlauncher.PrismLauncher" },
     { "flatpak": "io.github.kolunmi.Bazaar" },
     { "flatpak": "com.github.neithern.g4music" },
+    { "flatpak": "md.obsidian.Obsidian" },
     { "uv": "spotdl" },
     { "uv": "git+https://github.com/carterprince/ytmdl" },
     { "arch": "nvidia-open-dkms",       "fedora": "akmod-nvidia",                       "ubuntu": "nvidia-driver",       "desktop": true },
     { "arch": "cuda",                   "fedora": "xorg-x11-drv-nvidia-cuda",           "ubuntu": "nvidia-cuda-toolkit", "desktop": true }
+  ],
+  "extensions": [
+    "steal-my-focus-window@steal-my-focus-window"
   ],
   "links": [
     { "src": "config/shell/bashrc",                  "dst": "~/.bashrc" },
