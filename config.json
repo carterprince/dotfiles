@@ -43,7 +43,6 @@
     { "arch": "jdk-openjdk",            "fedora": "java-latest-openjdk",                "ubuntu": "default-jdk" },
     { "arch": "pkgfile" },
     { "arch": "7zip",                   "fedora": "p7zip",                              "ubuntu": "p7zip-full" },
-    { "arch": "obsidian" },
     { "flatpak": "org.prismlauncher.PrismLauncher" },
     { "flatpak": "io.github.kolunmi.Bazaar" },
     { "flatpak": "com.github.neithern.g4music" },
