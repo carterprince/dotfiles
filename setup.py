@@ -35,12 +35,12 @@ if distro == "arch":
     sh("sudo pkgfile --update")
 elif distro == "fedora":
     sh("flatpak remote-delete fedora --force || true")
-    sh("flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo")
     sh(f"sudo dnf install -y {distro_packages}")
 elif distro == "ubuntu":
     sh("sudo apt update")
     sh(f"sudo apt install -y {distro_packages}")
 
+sh("flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo")
 sh(f"flatpak install -y {flatpaks}")
 
 # python/uv tools
