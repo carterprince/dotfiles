@@ -86,21 +86,28 @@ require("lazy").setup({
         end,
     },
 
-    -- Treesitter (Syntax Highlighting)
     {
         "nvim-treesitter/nvim-treesitter",
+        branch = "main",
         build = ":TSUpdate",
         event = { "BufReadPre", "BufNewFile" },
-        opts = {
-            highlight = { 
-                enable = true, 
-                additional_vim_regex_highlighting = { "markdown" } 
-            },
-            indent = { enable = true },
-            ensure_installed = { "bash", "c", "lua", "markdown", "python", "vim" },
-        },
-        config = function(_, opts)
-            require("nvim-treesitter.config").setup(opts)
+        config = function()
+            require("nvim-treesitter").setup()
+
+            -- install parsers
+            require("nvim-treesitter").install({
+                "bash", "c", "lua", "markdown", "markdown_inline",
+                "python", "vim", "html", "css", "javascript",
+            })
+
+            -- enable highlighting + indent per filetype
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = { "bash", "c", "lua", "markdown", "python", "vim", "html", "css", "javascript" },
+                callback = function()
+                    vim.treesitter.start()
+                    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+                end,
+            })
         end,
     },
     
@@ -108,6 +115,14 @@ require("lazy").setup({
     {
         'nvim-telescope/telescope.nvim',
         dependencies = { 'nvim-lua/plenary.nvim' },
+        cmd = "Telescope",
+        config = function()
+            require('telescope').setup({
+                pickers = {
+                    colorscheme = { enable_preview = true },
+                },
+            })
+        end,
         keys = {
             { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
             { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
@@ -144,10 +159,55 @@ require("lazy").setup({
             keywords = { italic = false },
           }
         })
-        vim.cmd.colorscheme("tokyonight")
       end
-    }
+    },
+
+    {
+      "catppuccin/nvim",
+      name = "catppuccin",
+      config = function()
+        require("catppuccin").setup({
+          flavour = "mocha",
+          transparent_background = true,
+          styles = {
+            comments = { "italic" },
+            keywords = {},
+          }
+        })
+      end
+    },
+
+    {
+      "rose-pine/neovim",
+      name = "rose-pine",
+    },
+
+    {
+      "rebelot/kanagawa.nvim",
+      name = "kanagawa",
+    },
+
+    {
+      "projekt0n/github-nvim-theme",
+      name = "github-theme",
+      config = function()
+        vim.cmd.colorscheme("github_light_high_contrast")
+      end,
+    },
+
+    {
+      "miikanissi/modus-themes.nvim",
+      name = "modus-themes",
+    },
+
+    {
+      "EdenEast/nightfox.nvim",
+      name = "nightfox",
+    },
 })
+
+-- Override :colorscheme to use Telescope picker
+vim.cmd("cnoreabbrev colorscheme Telescope colorscheme")
 
 -- Key mappings
 map("!", "<C-h>", "<C-w>")
