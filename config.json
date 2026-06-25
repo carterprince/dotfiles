@@ -62,6 +62,7 @@
     { "src": "bin/pfetch",                           "dst": "~/.local/bin/pfetch" },
     { "src": "bin/adbsync",                          "dst": "~/.local/bin/adbsync" },
     { "src": "config/nvim/init.lua",                 "dst": "~/.config/nvim/init.lua" },
+    { "src": "config/nvim/after/queries/python/injections.scm", "dst": "~/.config/nvim/after/queries/python/injections.scm" },
     { "src": "config/newseum/feeds.csv",             "dst": "~/.config/newseum/feeds.csv" },
     { "src": "config/mpv/input.conf",                "dst": "~/.config/mpv/input.conf" },
     { "src": "config/mpv/mpv.conf",                "dst": "~/.config/mpv/mpv.conf" },
