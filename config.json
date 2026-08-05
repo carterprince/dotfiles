@@ -9,6 +9,7 @@
     { "arch": "papers",                 "fedora": "papers" },
     { "arch": "firefox",                "fedora": "firefox",                            "ubuntu": "firefox" },
     { "arch": "ptyxis" },
+    { "arch": "adw-gtk-theme", "fedora": "adw-gtk3-theme" },
     { "arch": "baobab",                 "fedora": "baobab",                             "ubuntu": "baobab" },
     { "arch": "python",                 "fedora": "python3",                            "ubuntu": "python3" },
     { "arch": "python-pandas",          "fedora": "python3-pandas",                     "ubuntu": "python3-pandas" },
@@ -77,8 +78,9 @@
     "org.gnome.desktop.interface": {
       "enable-animations": "false",
       "color-scheme": "'prefer-dark'",
-      "accent-color": "'yellow'",
-      "monospace-font-name": "'Monaco Nerd Font 11'"
+      "accent-color": "'red'",
+      "monospace-font-name": "'Monaco Nerd Font 11'",
+      "gtk-theme": "'adw-gtk3-dark'"
     },
     "org.gnome.desktop.wm.keybindings": {
       "switch-applications": "[]",
@@ -108,7 +110,7 @@
       "restore-session": "false"
     },
     "org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/profile0/": {
-      "palette": "'Dark Pastel'"
+      "palette": "'GNOME'"
     }
   },
   "keybindings": [

@@ -166,6 +166,7 @@ require("lazy").setup({
       "catppuccin/nvim",
       name = "catppuccin",
       config = function()
+
         require("catppuccin").setup({
           flavour = "mocha",
           transparent_background = true,
@@ -174,6 +175,7 @@ require("lazy").setup({
             keywords = {},
           }
         })
+        vim.cmd.colorscheme("catppuccin-macchiato")
       end
     },
 
@@ -190,9 +192,6 @@ require("lazy").setup({
     {
       "projekt0n/github-nvim-theme",
       name = "github-theme",
-      config = function()
-        vim.cmd.colorscheme("github_light_high_contrast")
-      end,
     },
 
     {

@@ -36,9 +36,6 @@ if distro == "arch":
 elif distro == "fedora":
     sh("flatpak remote-delete fedora --force || true")
     sh(f"sudo dnf install -y {distro_packages}")
-elif distro == "ubuntu":
-    sh("sudo apt update")
-    sh(f"sudo apt install -y {distro_packages}")
 
 sh("flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo")
 sh(f"flatpak install -y {flatpaks}")
@@ -72,8 +69,9 @@ for schema, settings in config["gsettings"].items():
 for mimetype, app in config["associations"].items():
     sh(f"xdg-mime default {app} {mimetype}")
 
-for ext in config["extensions"]:
-    sh(f"""gdbus call --session --dest org.gnome.Shell.Extensions --object-path /org/gnome/Shell/Extensions --method org.gnome.Shell.Extensions.InstallRemoteExtension "{ext}" """)
+# this seems to be broken right now
+# for ext in config["extensions"]:
+#     sh(f"""gdbus call --session --dest org.gnome.Shell.Extensions --object-path /org/gnome/Shell/Extensions --method org.gnome.Shell.Extensions.InstallRemoteExtension "{ext}" """)
 
 # custom keybindings
 keybindings = config["keybindings"]
@@ -88,6 +86,9 @@ kb_paths = "[" + ", ".join(
 ) + "]"
 sh(f'gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "{kb_paths}"')
 
+# caps lock -> escape
+sh("gsettings set org.gnome.desktop.input-sources xkb-options \"['caps:escape']\"")
+
 # visuals
 sh("git clone https://github.com/Karmenzind/monaco-nerd-fonts /tmp/monaco-nerd-fonts || true")
 sh("sudo cp -r /tmp/monaco-nerd-fonts/fonts/ /usr/share/fonts/monaco-nerd-fonts")
@@ -101,8 +102,9 @@ if distro != "fedora":
 monitor = cap("gdctl show | awk '/Monitor /{print $2; exit}'")
 res = cap("gdctl show | grep -A1 'Current mode' | grep -oE '[0-9]+x[0-9]+' | head -n1")
 mode = cap(f"gdctl show --modes | grep -oE '{res}@[0-9.]+' | sort -t@ -k2 -rn | head -n1")
+print(mode)
 width = int(res.split('x')[0])
-scale = 2 if width >= 3840 else 1
+scale = 2 if width >= 3840 else 1.2
 sh(f"gdctl set --persistent --logical-monitor --primary --monitor {monitor} --mode {mode} --scale {scale}")
 
 # firefox
