@@ -47,6 +47,7 @@ for tool in tools:
 
 sh("sudo systemctl enable gdm")
 sh("sudo systemctl enable NetworkManager --now")
+sh("curl -sL https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee /etc/hosts > /dev/null")
 
 # symlink configs
 for link in config["links"]:
