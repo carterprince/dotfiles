@@ -34,7 +34,18 @@ if distro == "arch":
     sh("sudo pacman -R --noconfirm epiphany || true")
     sh("sudo pkgfile --update")
 elif distro == "fedora":
+    sh('grep -q "max_parallel_downloads" /etc/dnf/dnf.conf || echo "max_parallel_downloads=10" | sudo tee -a /etc/dnf/dnf.conf')
     sh("flatpak remote-delete fedora --force || true")
+    sh("sudo dnf upgrade --refresh -y")
+
+    # codec stuff
+    sh("sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm")
+    sh("sudo dnf swap ffmpeg-free ffmpeg --allowerasing -y")
+    sh("sudo dnf install mesa-va-drivers-freeworld -y")
+
+    if is_desktop:
+        sh("sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda")
+
     sh(f"sudo dnf install -y {distro_packages}")
 
 sh("flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo")
