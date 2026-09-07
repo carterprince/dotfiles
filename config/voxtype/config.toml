@@ -1,0 +1,23 @@
+# Voxtype — CPU-only setup
+# engine selection happens in the wrapper; VOXTYPE_GPU is unset so
+# /usr/bin/voxtype runs voxtype-avx512 or voxtype-avx2 (never vulkan)
+
+engine = "whisper"
+
+[whisper]
+model = "tiny.en"
+language = "en"
+
+[hotkey]
+enabled = true
+key = "F14"
+mode = "push_to_talk"
+
+[osd]
+enabled = false
+
+[output]
+
+[output.notification]
+on_recording_start = false
+on_transcription = false

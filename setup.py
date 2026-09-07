@@ -47,6 +47,12 @@ elif distro == "fedora":
         sh("sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda")
 
     sh(f"sudo dnf install -y {distro_packages}")
+    # voxtype (push-to-talk dictation) - not in Fedora repos, install pinned RPM
+    voxtype_version = "1.0.1"
+    if not ok(f"rpm -q voxtype | grep -q {voxtype_version}"):
+        rpm = f"https://github.com/peteonrails/voxtype/releases/download/v{voxtype_version}/voxtype_{voxtype_version}-1.x86_64.rpm"
+        sh(f"curl -fsSL -o /tmp/voxtype.rpm {rpm}")
+        sh("sudo dnf install -y /tmp/voxtype.rpm")
 
 sh("flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo")
 sh(f"flatpak install -y {flatpaks}")
@@ -71,6 +77,17 @@ for link in config["links"]:
         sh(f'mkdir -p $(dirname "{dst}")')
         sh(f"ln -sf {src} {dst}")
 sh("sudo chmod 644 /etc/firefox/policies/policies.json")
+
+# voxtype services (daemon + mouse/F9 hotkey relay)
+if ok("command -v voxtype"):
+    sh("voxtype setup --download --model tiny.en --quiet --no-post-install")
+    sh("voxtype setup systemd")
+    sh("systemctl --user daemon-reload")
+    sh("systemctl --user enable --now voxtype")
+    if ok("test -e /dev/input/by-id/usb-Logitech_USB_Receiver-if01-event-mouse"):
+        sh("systemctl --user enable --now mouse-ptt-remap")
+        sh("systemctl --user restart mouse-ptt-remap")
+    sh("systemctl --user restart voxtype")
 
 # gsettings
 for schema, settings in config["gsettings"].items():

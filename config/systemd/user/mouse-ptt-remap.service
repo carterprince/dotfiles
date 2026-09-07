@@ -1,0 +1,11 @@
+[Unit]
+Description=Relay mouse extra button and keyboard F9 to F14 for voxtype push-to-talk
+
+[Service]
+ExecStart=%h/.local/bin/mouse-ptt-remap
+Restart=always
+RestartSec=2
+StartLimitIntervalSec=0
+
+[Install]
+WantedBy=default.target
