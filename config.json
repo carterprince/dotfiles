@@ -64,7 +64,6 @@
     { "fedora": "alsa-plugins-pulseaudio" },
     { "flatpak": "org.prismlauncher.PrismLauncher" },
     { "flatpak": "io.github.kolunmi.Bazaar" },
-    { "flatpak": "com.github.neithern.g4music" },
     { "arch": "nvidia-open-dkms",       "fedora": "akmod-nvidia",             "desktop": true },
     { "arch": "cuda",                   "fedora": "xorg-x11-drv-nvidia-cuda", "desktop": true }
   ],
