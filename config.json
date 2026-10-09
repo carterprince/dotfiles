@@ -56,6 +56,7 @@
     { "arch": "libsecret",              "fedora": "libsecret",                          "ubuntu": "libsecret-tools" },
     { "arch": "7zip",                   "fedora": "p7zip",                              "ubuntu": "p7zip-full" },
     { "fedora": "wtype" },
+    { "arch": "ydotool",                "fedora": "ydotool",                            "ubuntu": "ydotool" },
     { "fedora": "wl-clipboard" },
     { "fedora": "libnotify" },
     { "fedora": "pipewire-alsa" },
@@ -84,6 +85,8 @@
     { "src": "config/mpv/scripts/nightcore.lua",     "dst": "~/.config/mpv/scripts/nightcore.lua" },
     { "src": "config/voxtype/config.toml",           "dst": "~/.config/voxtype/config.toml" },
     { "src": "config/systemd/user/mouse-ptt-remap.service", "dst": "~/.config/systemd/user/mouse-ptt-remap.service" },
+    { "src": "config/systemd/user/ydotoold.service", "dst": "~/.config/systemd/user/ydotoold.service" },
+    { "src": "config/udev/70-uinput.rules",          "dst": "/etc/udev/rules.d/70-uinput.rules", "sudo": true },
     { "src": "config/systemd/user/voxtype.service.d/gpu.conf", "dst": "~/.config/systemd/user/voxtype.service.d/gpu.conf", "desktop": true },
     { "src": "config/shell/command-not-found.bash",  "dst": "~/.local/share/bash/command-not-found.bash", "sudo": true },
     { "src": "config/firefox/policies.json",         "dst": "/etc/firefox/policies/policies.json", "sudo": true }

@@ -1,0 +1,2 @@
+# let the logged-in user create virtual input devices (ydotoold, mouse-ptt-remap)
+KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess", OPTIONS+="static_node=uinput"

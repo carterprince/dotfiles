@@ -95,6 +95,10 @@ sh("sudo chmod 644 /etc/firefox/policies/policies.json")
 if ok("command -v voxtype"):
     # voxtype reads the hotkey straight from /dev/input (takes effect at next login)
     sh("sudo usermod -aG input $USER")
+    # GNOME has no virtual keyboard protocol for wtype, so voxtype types through ydotool
+    sh("sudo udevadm control --reload && sudo udevadm trigger --name-match=uinput")
+    sh("systemctl --user daemon-reload")
+    sh("systemctl --user enable --now ydotoold")
     # small.en on the CPU everywhere; the desktop runs medium.en on its GPU (gpu.conf)
     sh("voxtype setup --download --model small.en --quiet --no-post-install")
     if is_desktop:
