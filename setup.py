@@ -93,6 +93,8 @@ sh("sudo chmod 644 /etc/firefox/policies/policies.json")
 
 # voxtype services (daemon, plus the mouse push-to-talk relay where that mouse exists)
 if ok("command -v voxtype"):
+    # voxtype reads the hotkey straight from /dev/input (takes effect at next login)
+    sh("sudo usermod -aG input $USER")
     # small.en on the CPU everywhere; the desktop runs medium.en on its GPU (gpu.conf)
     sh("voxtype setup --download --model small.en --quiet --no-post-install")
     if is_desktop:
