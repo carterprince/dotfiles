@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import json
+import urllib.request
 from util import HOME, sh, cap, ok, cfg
 
 sh("sudo -v")
@@ -50,7 +52,9 @@ elif distro == "fedora":
     # voxtype (push-to-talk dictation) - not in Fedora repos, install pinned RPM
     voxtype_version = "1.0.1"
     if not ok(f"rpm -q voxtype | grep -q {voxtype_version}"):
-        rpm = f"https://github.com/peteonrails/voxtype/releases/download/v{voxtype_version}/voxtype_{voxtype_version}-1.x86_64.rpm"
+        # look the RPM up in the release's assets; upstream has renamed it before
+        release = json.load(urllib.request.urlopen(f"https://api.github.com/repos/peteonrails/voxtype/releases/tags/v{voxtype_version}"))
+        rpm = next(a["browser_download_url"] for a in release["assets"] if a["name"].endswith(".x86_64.rpm"))
         sh(f"curl -fsSL -o /tmp/voxtype.rpm {rpm}")
         sh("sudo dnf install -y /tmp/voxtype.rpm")
 
