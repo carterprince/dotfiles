@@ -6,12 +6,13 @@ single configured key (F14 here), so this daemon bridges the gap:
 
 1. Logitech mouse: grabs the mouse node and re-emits every event through a
    virtual uinput keyboard named "voxtype-ptt-relay" with BTN_EXTRA (276)
-   swapped for KEY_F14 (184).
+   swapped for KEY_F14 (184), and BTN_SIDE (275) swapped for KEY_ENTER (28).
 2. Keyboards (non-grabbed): watches for KEY_F9 (67) presses and re-emits them
    as KEY_F14. All other keyboard events are dropped here - the original
    keyboard still delivers them itself, so relaying would double every key.
 
-Result: hold the mouse's extra button OR keyboard F9 to record.
+Result: hold the mouse's extra button OR keyboard F9 to record, and press the
+mouse's side button (275) for Enter.
 """
 
 import fcntl
@@ -24,6 +25,7 @@ import time
 
 MOUSE_NAME = "Logitech USB Receiver Mouse"
 BTN_EXTRA = 276
+BTN_SIDE = 275
 KEY_F14 = 184
 KEY_F9 = 67
 KEY_A, KEY_Z, KEY_ENTER = 30, 44, 28
@@ -166,7 +168,10 @@ def main():
 
     uin = setup_uinput(key_bits, rel_bits, vendor, product)
     fcntl.ioctl(src, EVIOCGRAB, 1)
-    log(f"grabbed {node}; relaying BTN_EXTRA({BTN_EXTRA}) -> F14({KEY_F14})")
+    log(
+        f"grabbed {node}; relaying BTN_EXTRA({BTN_EXTRA}) -> F14({KEY_F14}), "
+        f"BTN_SIDE({BTN_SIDE}) -> ENTER({KEY_ENTER})"
+    )
 
     watches = {}  # path -> fd
 
@@ -220,6 +225,8 @@ def main():
                             continue
                         if typ == EV_KEY and code == BTN_EXTRA:
                             code = KEY_F14
+                        elif typ == EV_KEY and code == BTN_SIDE:
+                            code = KEY_ENTER
                         emit(uin, (tv_s, tv_us, typ, code, val))
                     else:
                         if typ == EV_KEY and code == KEY_F9:

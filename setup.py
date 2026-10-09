@@ -62,6 +62,13 @@ tools = [p["uv"] for p in packages if "uv" in p]
 for tool in tools:
     sh(f"uv tool install {tool}")
 
+# apps built from source (dependencies are in config.json)
+for app in ["oxidance", "hematite"]:
+    src = f"{HOME}/.local/src/{app}"
+    if not ok(f"test -d {src}"):
+        sh(f"git clone https://github.com/carterprince/{app} {src}")
+    sh(f"{src}/install.sh")
+
 sh("sudo systemctl enable gdm")
 sh("sudo systemctl enable NetworkManager --now")
 sh("curl -sL https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee /etc/hosts > /dev/null")

@@ -1,11 +1,20 @@
-export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
+# env stuff
+export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.opencode/bin:$DEVKITPRO/tools/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:/usr/local/cuda/bin:$PATH:$PATH"
 export EDITOR="nvim"
 export MANPAGER="less -R --use-color -DP+yk -Dd+y -Du+y"
 export MANROFFOPT="-c"
 export PKGFILE_PROMPT_INSTALL_MISSING=1
-
 export OMP_NUM_THREADS=8
 export OPENBLAS_NUM_THREADS=8
-
+export PYTHONUNBUFFERED=1
+export DEVKITPRO=/opt/devkitpro
+export DEVKITARM=/opt/devkitpro/devkitARM
+export ANDROID_HOME=$HOME/.android/sdk
+export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
 
 [ -f "$HOME/.secrets" ] && source $HOME/.secrets
+
+# Bigger console font on 4K monitor (only in a TTY, not a terminal emulator)
+if [ -t 0 ] && [ -x /usr/bin/setfont ]; then
+    setfont latarcyrheb-sun32
+fi 
