@@ -87,7 +87,7 @@ sh("sudo chmod 644 /etc/firefox/policies/policies.json")
 
 # voxtype services (daemon + mouse/F9 hotkey relay)
 if ok("command -v voxtype"):
-    sh("voxtype setup --download --model tiny.en --quiet --no-post-install")
+    sh("voxtype setup --download --model small.en --quiet --no-post-install")
     sh("voxtype setup systemd")
     sh("systemctl --user daemon-reload")
     sh("systemctl --user enable --now voxtype")

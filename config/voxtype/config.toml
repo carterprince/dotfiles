@@ -5,8 +5,9 @@
 engine = "whisper"
 
 [whisper]
-model = "tiny.en"
+model = "small.en"
 language = "en"
+initial_prompt = "so I talked to Mike about the GNOME release, and honestly, he thinks we should wait a bit longer. we can test it on Fedora next week, after the update lands. does that sound okay to you? sounds good to me"
 
 [hotkey]
 enabled = true
@@ -21,3 +22,6 @@ enabled = false
 [output.notification]
 on_recording_start = false
 on_transcription = false
+
+[output.post_process]
+command = '''sed -E 's/\.[[:space:]]*$//''''
