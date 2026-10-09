@@ -75,6 +75,8 @@ sh("curl -sL https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | 
 
 # symlink configs
 for link in config["links"]:
+    if link.get("desktop") and not is_desktop:
+        continue
     src = DOTFILES + "/" + link["src"]
     dst = link["dst"].replace("~", HOME)
     if link.get("sudo"):
@@ -87,7 +89,10 @@ sh("sudo chmod 644 /etc/firefox/policies/policies.json")
 
 # voxtype services (daemon + mouse/F9 hotkey relay)
 if ok("command -v voxtype"):
+    # small.en on the CPU everywhere; the desktop runs medium.en on its GPU (gpu.conf)
     sh("voxtype setup --download --model small.en --quiet --no-post-install")
+    if is_desktop:
+        sh("voxtype setup --download --model medium.en --quiet --no-post-install")
     sh("voxtype setup systemd")
     sh("systemctl --user daemon-reload")
     sh("systemctl --user enable --now voxtype")

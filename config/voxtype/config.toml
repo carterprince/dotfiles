@@ -1,13 +1,13 @@
-# Voxtype — CPU-only setup
-# engine selection happens in the wrapper; VOXTYPE_GPU is unset so
-# /usr/bin/voxtype runs voxtype-avx512 or voxtype-avx2 (never vulkan)
+# Voxtype — small.en on the CPU by default. On the desktop,
+# config/systemd/user/voxtype.service.d/gpu.conf sets VOXTYPE_GPU=1 (so the
+# /usr/bin/voxtype wrapper runs voxtype-vulkan) and overrides the model with medium.en
 
 engine = "whisper"
 
 [whisper]
 model = "small.en"
 language = "en"
-initial_prompt = "so I talked to Mike about the GNOME release, and honestly, he thinks we should wait a bit longer. we can test it on Fedora next week, after the update lands. does that sound okay to you? sounds good to me"
+initial_prompt = "so I talked to Mike about the GNOME release, and honestly, he thinks we should wait a bit longer. we can test it on Fedora next week, after the update lands. does that sound okay to you? sounds good to me. voxtype, dotfiles, Neovim, WebDAV, libadwaita"
 
 [hotkey]
 enabled = true
