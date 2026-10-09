@@ -1,18 +1,14 @@
 #!/usr/bin/env python3
-"""Push-to-talk key relay for voxtype.
+"""Mouse push-to-talk relay for voxtype.
 
 voxtype's evdev hotkey only listens on keyboard-class devices and matches a
-single configured key (F14 here), so this daemon bridges the gap:
+single configured key (F9), so this daemon grabs the Logitech mouse node and
+re-emits every event through a virtual uinput keyboard named
+"voxtype-ptt-relay" with BTN_EXTRA (276) swapped for KEY_F9 (67), and
+BTN_SIDE (275) swapped for KEY_ENTER (28).
 
-1. Logitech mouse: grabs the mouse node and re-emits every event through a
-   virtual uinput keyboard named "voxtype-ptt-relay" with BTN_EXTRA (276)
-   swapped for KEY_F14 (184), and BTN_SIDE (275) swapped for KEY_ENTER (28).
-2. Keyboards (non-grabbed): watches for KEY_F9 (67) presses and re-emits them
-   as KEY_F14. All other keyboard events are dropped here - the original
-   keyboard still delivers them itself, so relaying would double every key.
-
-Result: hold the mouse's extra button OR keyboard F9 to record, and press the
-mouse's side button (275) for Enter.
+Result: hold the mouse's extra button (or keyboard F9, which voxtype reads
+directly) to record, and press the mouse's side button for Enter.
 """
 
 import fcntl
@@ -26,11 +22,8 @@ import time
 MOUSE_NAME = "Logitech USB Receiver Mouse"
 BTN_EXTRA = 276
 BTN_SIDE = 275
-KEY_F14 = 184
 KEY_F9 = 67
 KEY_A, KEY_Z, KEY_ENTER = 30, 44, 28
-EXCLUDED_NAMES = ("voxtype-ptt-relay", "ydotoold virtual device")
-KEYBOARD_RESCAN_SECS = 10.0
 
 EV_SYN, EV_KEY, EV_REL, EV_MSC = 0x00, 0x01, 0x02, 0x04
 BUS_USB = 0x03
@@ -66,38 +59,6 @@ def find_mouse_node():
     return None
 
 
-def find_f9_keyboards():
-    """Return event nodes of keyboard-class devices whose bitmap has KEY_F9."""
-    nodes = []
-    with open("/proc/bus/input/devices") as f:
-        text = f.read()
-    for section in text.split("\n\n"):
-        name_match = re.search(r'N: Name="(.*)"', section)
-        if not name_match or name_match.group(1) in EXCLUDED_NAMES:
-            continue
-        match = re.search(r"H:.*?(event\d+)", section)
-        if not match:
-            continue
-        keyline = next(
-            (l for l in section.splitlines() if l.startswith("B: KEY")), None
-        )
-        if not keyline:
-            continue
-        tokens = keyline.split()[2:]
-        has_f9 = has_a = False
-        # each token is one unsigned long (64-bit on this kernel), MSB word first
-        for i, tok in enumerate(reversed(tokens)):
-            val = int(tok, 16)
-            base = i * 64
-            if 0 <= KEY_F9 - base < 64 and val & (1 << (KEY_F9 - base)):
-                has_f9 = True
-            if 0 <= KEY_A - base < 64 and val & (1 << (KEY_A - base)):
-                has_a = True
-        if has_f9 and has_a:
-            nodes.append("/dev/input/" + match.group(1))
-    return nodes
-
-
 def bitmap_bits(buf):
     bits = set()
     for byte_index, byte in enumerate(buf):
@@ -119,7 +80,7 @@ def setup_uinput(key_bits, rel_bits, vendor, product):
     try:
         for bit in (EV_SYN, EV_KEY, EV_REL):
             fcntl.ioctl(fd, UI_SET_EVBIT, bit)
-        for bit in sorted(key_bits | {KEY_F14, KEY_A, KEY_Z, KEY_ENTER}):
+        for bit in sorted(key_bits | {KEY_F9, KEY_A, KEY_Z, KEY_ENTER}):
             fcntl.ioctl(fd, UI_SET_KEYBIT, bit)
         for bit in sorted(rel_bits):
             fcntl.ioctl(fd, UI_SET_RELBIT, bit)
@@ -169,79 +130,40 @@ def main():
     uin = setup_uinput(key_bits, rel_bits, vendor, product)
     fcntl.ioctl(src, EVIOCGRAB, 1)
     log(
-        f"grabbed {node}; relaying BTN_EXTRA({BTN_EXTRA}) -> F14({KEY_F14}), "
+        f"grabbed {node}; relaying BTN_EXTRA({BTN_EXTRA}) -> F9({KEY_F9}), "
         f"BTN_SIDE({BTN_SIDE}) -> ENTER({KEY_ENTER})"
     )
 
-    watches = {}  # path -> fd
-
-    def scan_keyboards():
-        for path in find_f9_keyboards():
-            if path in watches:
-                continue
-            try:
-                fd = os.open(path, os.O_RDONLY | os.O_NONBLOCK)
-            except OSError as exc:
-                log(f"cannot open {path}: {exc}")
-                continue
-            watches[path] = fd
-            log(f"watching {path}: F9({KEY_F9}) -> F14({KEY_F14})")
-        if not watches:
-            log("no F9-capable keyboard found yet; rescanning")
-
-    scan_keyboards()
-    last_scan = time.monotonic()
-
     try:
         while running:
-            readable = [src, *watches.values()]
-            rlist, _, _ = select.select(readable, [], [], 1.0)
-            now = time.monotonic()
-            if now - last_scan > KEYBOARD_RESCAN_SECS:
-                scan_keyboards()
-                last_scan = now
-            for fd in rlist:
-                try:
-                    data = os.read(fd, 4096)
-                except OSError:
-                    data = b""
-                if not data:
-                    gone = [p for p, f2 in watches.items() if f2 == fd]
-                    for path in gone:
-                        log(f"device gone: {path}")
-                        os.close(watches.pop(path))
-                    if fd == src:
-                        log("mouse gone; exiting for restart")
-                        return 1
+            rlist, _, _ = select.select([src], [], [], 1.0)
+            if not rlist:
+                continue
+            try:
+                data = os.read(src, 4096)
+            except OSError:
+                data = b""
+            if not data:
+                log("mouse gone; exiting for restart")
+                return 1
+            offset = 0
+            end = len(data) - EVENT.size + 1
+            while offset < end:
+                tv_s, tv_us, typ, code, val = EVENT.unpack_from(data, offset)
+                offset += EVENT.size
+                if typ == EV_MSC:
                     continue
-                offset = 0
-                end = len(data) - EVENT.size + 1
-                while offset < end:
-                    event = EVENT.unpack_from(data, offset)
-                    offset += EVENT.size
-                    tv_s, tv_us, typ, code, val = event
-                    if fd == src:
-                        if typ == EV_MSC:
-                            continue
-                        if typ == EV_KEY and code == BTN_EXTRA:
-                            code = KEY_F14
-                        elif typ == EV_KEY and code == BTN_SIDE:
-                            code = KEY_ENTER
-                        emit(uin, (tv_s, tv_us, typ, code, val))
-                    else:
-                        if typ == EV_KEY and code == KEY_F9:
-                            emit(uin, (tv_s, tv_us, EV_KEY, KEY_F14, val))
+                if typ == EV_KEY and code == BTN_EXTRA:
+                    code = KEY_F9
+                elif typ == EV_KEY and code == BTN_SIDE:
+                    code = KEY_ENTER
+                emit(uin, (tv_s, tv_us, typ, code, val))
     finally:
         try:
             fcntl.ioctl(src, EVIOCGRAB, 0)
         except OSError:
             pass
         os.close(src)
-        for fd in watches.values():
-            try:
-                os.close(fd)
-            except OSError:
-                pass
         try:
             fcntl.ioctl(uin, UI_DEV_DESTROY)
         except OSError:

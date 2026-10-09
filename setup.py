@@ -91,7 +91,7 @@ for link in config["links"]:
         sh(f"ln -sf {src} {dst}")
 sh("sudo chmod 644 /etc/firefox/policies/policies.json")
 
-# voxtype services (daemon + mouse/F9 hotkey relay)
+# voxtype services (daemon, plus the mouse push-to-talk relay where that mouse exists)
 if ok("command -v voxtype"):
     # small.en on the CPU everywhere; the desktop runs medium.en on its GPU (gpu.conf)
     sh("voxtype setup --download --model small.en --quiet --no-post-install")

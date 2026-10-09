@@ -11,7 +11,7 @@ initial_prompt = "so I talked to Mike about the GNOME release, and honestly, he 
 
 [hotkey]
 enabled = true
-key = "F14"
+key = "F9"
 mode = "push_to_talk"
 
 [osd]
