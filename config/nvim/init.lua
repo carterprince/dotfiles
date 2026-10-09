@@ -149,20 +149,6 @@ require("lazy").setup({
 
     -- Theme
     {
-      "folke/tokyonight.nvim",
-      config = function()
-        require("tokyonight").setup({
-          style = "night",
-          transparent = true,
-          styles = {
-            comments = { italic = true },
-            keywords = { italic = false },
-          }
-        })
-      end
-    },
-
-    {
       "catppuccin/nvim",
       name = "catppuccin",
       config = function()
@@ -177,31 +163,6 @@ require("lazy").setup({
         })
         vim.cmd.colorscheme("catppuccin-macchiato")
       end
-    },
-
-    {
-      "rose-pine/neovim",
-      name = "rose-pine",
-    },
-
-    {
-      "rebelot/kanagawa.nvim",
-      name = "kanagawa",
-    },
-
-    {
-      "projekt0n/github-nvim-theme",
-      name = "github-theme",
-    },
-
-    {
-      "miikanissi/modus-themes.nvim",
-      name = "modus-themes",
-    },
-
-    {
-      "EdenEast/nightfox.nvim",
-      name = "nightfox",
     },
 })
 
