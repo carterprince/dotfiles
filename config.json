@@ -64,7 +64,6 @@
     { "flatpak": "org.prismlauncher.PrismLauncher" },
     { "flatpak": "io.github.kolunmi.Bazaar" },
     { "flatpak": "com.github.neithern.g4music" },
-    { "flatpak": "md.obsidian.Obsidian" },
     { "arch": "nvidia-open-dkms",       "fedora": "akmod-nvidia",                       "ubuntu": "nvidia-driver",       "desktop": true },
     { "arch": "cuda",                   "fedora": "xorg-x11-drv-nvidia-cuda",           "ubuntu": "nvidia-cuda-toolkit", "desktop": true }
   ],
@@ -118,7 +117,7 @@
       "picture-uri-dark": "'file://$DOTFILES/share/wallpaper.png'"
     },
     "org.gnome.shell": {
-      "favorite-apps": "['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Ptyxis.desktop', 'newseum.desktop', 'obsidian.desktop']"
+      "favorite-apps": "['org.gnome.Nautilus.desktop', 'org.gnome.Ptyxis.desktop', 'io.github.oxidance.Oxidance.desktop', 'org.mozilla.firefox.desktop', 'io.github.hematite.Editor.desktop']"
     },
     "org.gnome.Ptyxis": {
       "default-profile-uuid": "'profile0'",
@@ -133,7 +132,8 @@
   },
   "keybindings": [
     { "name": "Launch Terminal", "command": "ptyxis --new-window",                        "binding": "<Alt>Return" },
-    { "name": "Launch Music",    "command": "sh -c 'mpv --shuffle --speed=1.08 ~/Music/'", "binding": "<Alt>m" },
-    { "name": "Launch Newseum",  "command": "gtk-launch newseum",                          "binding": "<Alt>n" }
+    { "name": "Launch Music",    "command": "oxidance",                                    "binding": "<Alt>m" },
+    { "name": "Launch Newseum",  "command": "gtk-launch newseum",                          "binding": "<Alt>n" },
+    { "name": "Launch Notes",    "command": "hematite",                                    "binding": "<Alt>o" }
   ]
 }

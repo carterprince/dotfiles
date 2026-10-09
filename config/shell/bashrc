@@ -23,3 +23,10 @@ export DEVKITARM=/opt/devkitpro/devkitARM
 export PATH=$DEVKITPRO/tools/bin:$PATH
 export ANDROID_HOME=$HOME/.android/sdk
 export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+
+# history: large, no duplicates, and shared between open terminals right away
+HISTSIZE=100000
+HISTFILESIZE=100000
+HISTCONTROL=ignoreboth:erasedups
+shopt -s histappend
+PROMPT_COMMAND="history -a; history -n${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
