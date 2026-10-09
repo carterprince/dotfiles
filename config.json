@@ -117,6 +117,7 @@
       "previous":    "['<Alt><Shift>h']"
     },
     "org.gnome.desktop.background": {
+      "picture-uri": "'file://$DOTFILES/share/wallpaper.png'",
       "picture-uri-dark": "'file://$DOTFILES/share/wallpaper.png'"
     },
     "org.gnome.shell": {

@@ -114,6 +114,7 @@ if ok("command -v voxtype"):
 # gsettings
 for schema, settings in config["gsettings"].items():
     for key, val in settings.items():
+        val = val.replace("$DOTFILES", DOTFILES)
         sh(f'gsettings set {schema} {key} "{val}"')
 
 # mime stuff
