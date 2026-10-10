@@ -13,7 +13,7 @@ initial_prompt = "so I talked to Mike about the GNOME release, and honestly, he 
 
 [hotkey]
 enabled = true
-key = "RIGHTCTRL"
+key = "RIGHTALT"
 mode = "push_to_talk"
 
 [osd]
