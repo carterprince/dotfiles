@@ -7,7 +7,7 @@ re-emits every event through a virtual uinput keyboard named
 "voxtype-ptt-relay" with BTN_EXTRA (276) swapped for KEY_F14 (184), and
 BTN_SIDE (275) swapped for KEY_ENTER (28).
 
-Result: hold the mouse's extra button (or keyboard right Alt, mapped to F14 by
+Result: hold the mouse's extra button (or keyboard right Shift, mapped to F14 by
 udev) to record, and press the mouse's side button for Enter.
 """
 

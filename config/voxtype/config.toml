@@ -13,7 +13,7 @@ initial_prompt = "so I talked to Mike about the GNOME release, and honestly, he 
 
 [hotkey]
 enabled = true
-key = "F14"  # Right Alt is mapped to F14 by config/udev/90-voxtype-keyboard.hwdb.
+key = "F14"  # Right Shift is mapped to F14 by config/udev/90-voxtype-keyboard.hwdb.
 mode = "push_to_talk"
 
 [osd]
