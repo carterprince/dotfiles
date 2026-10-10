@@ -1,5 +1,5 @@
 [Unit]
-Description=Relay the mouse extra button to F9 for voxtype push-to-talk
+Description=Relay the mouse extra button to right Ctrl for voxtype push-to-talk
 
 [Service]
 ExecStart=%h/.local/bin/mouse-ptt-remap

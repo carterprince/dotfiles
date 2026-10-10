@@ -2,12 +2,12 @@
 """Mouse push-to-talk relay for voxtype.
 
 voxtype's evdev hotkey only listens on keyboard-class devices and matches a
-single configured key (F9), so this daemon grabs the Logitech mouse node and
+single configured key (right Ctrl), so this daemon grabs the Logitech mouse node and
 re-emits every event through a virtual uinput keyboard named
-"voxtype-ptt-relay" with BTN_EXTRA (276) swapped for KEY_F9 (67), and
+"voxtype-ptt-relay" with BTN_EXTRA (276) swapped for KEY_RIGHTCTRL (97), and
 BTN_SIDE (275) swapped for KEY_ENTER (28).
 
-Result: hold the mouse's extra button (or keyboard F9, which voxtype reads
+Result: hold the mouse's extra button (or keyboard right Ctrl, which voxtype reads
 directly) to record, and press the mouse's side button for Enter.
 """
 
@@ -22,7 +22,7 @@ import time
 MOUSE_NAME = "Logitech USB Receiver Mouse"
 BTN_EXTRA = 276
 BTN_SIDE = 275
-KEY_F9 = 67
+KEY_RIGHTCTRL = 97
 KEY_A, KEY_Z, KEY_ENTER = 30, 44, 28
 
 EV_SYN, EV_KEY, EV_REL, EV_MSC = 0x00, 0x01, 0x02, 0x04
@@ -80,7 +80,7 @@ def setup_uinput(key_bits, rel_bits, vendor, product):
     try:
         for bit in (EV_SYN, EV_KEY, EV_REL):
             fcntl.ioctl(fd, UI_SET_EVBIT, bit)
-        for bit in sorted(key_bits | {KEY_F9, KEY_A, KEY_Z, KEY_ENTER}):
+        for bit in sorted(key_bits | {KEY_RIGHTCTRL, KEY_A, KEY_Z, KEY_ENTER}):
             fcntl.ioctl(fd, UI_SET_KEYBIT, bit)
         for bit in sorted(rel_bits):
             fcntl.ioctl(fd, UI_SET_RELBIT, bit)
@@ -130,7 +130,7 @@ def main():
     uin = setup_uinput(key_bits, rel_bits, vendor, product)
     fcntl.ioctl(src, EVIOCGRAB, 1)
     log(
-        f"grabbed {node}; relaying BTN_EXTRA({BTN_EXTRA}) -> F9({KEY_F9}), "
+        f"grabbed {node}; relaying BTN_EXTRA({BTN_EXTRA}) -> RIGHTCTRL({KEY_RIGHTCTRL}), "
         f"BTN_SIDE({BTN_SIDE}) -> ENTER({KEY_ENTER})"
     )
 
@@ -154,7 +154,7 @@ def main():
                 if typ == EV_MSC:
                     continue
                 if typ == EV_KEY and code == BTN_EXTRA:
-                    code = KEY_F9
+                    code = KEY_RIGHTCTRL
                 elif typ == EV_KEY and code == BTN_SIDE:
                     code = KEY_ENTER
                 emit(uin, (tv_s, tv_us, typ, code, val))
