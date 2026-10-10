@@ -7,6 +7,7 @@ engine = "whisper"
 [whisper]
 model = "base"
 language = "en"
+context_window_optimization = true
 initial_prompt = "so I talked to Mike about the GNOME release, and honestly, he thinks we should wait a bit longer. we can test it on Fedora next week, after the update lands. does that sound okay to you? sounds good to me. voxtype, dotfiles, Neovim, WebDAV, libadwaita"
 
 [hotkey]
