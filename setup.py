@@ -36,6 +36,8 @@ if distro == "arch":
     sh("sudo pacman -R --noconfirm epiphany || true")
     sh("sudo pkgfile --update")
 elif distro == "fedora":
+    # Remove unused third-party repositories before refreshing package metadata.
+    sh("sudo rm -f /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:phracek:PyCharm.repo /etc/yum.repos.d/google-chrome.repo")
     sh('grep -q "max_parallel_downloads" /etc/dnf/dnf.conf || echo "max_parallel_downloads=10" | sudo tee -a /etc/dnf/dnf.conf')
     sh("flatpak remote-delete fedora --force || true")
     sh("sudo dnf upgrade --refresh -y")
