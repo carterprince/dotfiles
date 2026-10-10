@@ -1,11 +1,11 @@
-# Voxtype — base on the CPU by default. On the desktop,
+# Voxtype — small on the CPU by default. On the desktop,
 # config/systemd/user/voxtype.service.d/gpu.conf sets VOXTYPE_GPU=1 (so the
 # /usr/bin/voxtype wrapper runs voxtype-vulkan) and overrides the model with medium.en
 
 engine = "whisper"
 
 [whisper]
-model = "base"
+model = "small"
 language = "en"
 threads = 8
 context_window_optimization = true

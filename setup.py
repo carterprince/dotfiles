@@ -99,8 +99,8 @@ if ok("command -v voxtype"):
     sh("sudo udevadm control --reload && sudo udevadm trigger --name-match=uinput")
     sh("systemctl --user daemon-reload")
     sh("systemctl --user enable --now ydotoold")
-    # base on the laptop CPU; the desktop runs medium.en on its GPU (gpu.conf)
-    voxtype_model = "medium.en" if is_desktop else "base"
+    # small on the laptop CPU; the desktop runs medium.en on its GPU (gpu.conf)
+    voxtype_model = "medium.en" if is_desktop else "small"
     sh(f"voxtype setup --download --model {voxtype_model} --quiet --no-post-install")
     sh("voxtype setup systemd")
     sh("systemctl --user daemon-reload")
