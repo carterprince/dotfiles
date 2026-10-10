@@ -51,14 +51,12 @@ elif distro == "fedora":
         sh("sudo dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda")
 
     sh(f"sudo dnf install -y {distro_packages}")
-    # voxtype (push-to-talk dictation) - not in Fedora repos, install pinned RPM
-    voxtype_version = "1.0.1"
-    if not ok(f"rpm -q voxtype | grep -q {voxtype_version}"):
-        # look the RPM up in the release's assets; upstream has renamed it before
-        release = json.load(urllib.request.urlopen(f"https://api.github.com/repos/peteonrails/voxtype/releases/tags/v{voxtype_version}"))
-        rpm = next(a["browser_download_url"] for a in release["assets"] if a["name"].endswith(".x86_64.rpm"))
-        sh(f"curl -fsSL -o /tmp/voxtype.rpm {rpm}")
-        sh("sudo dnf install -y /tmp/voxtype.rpm")
+    # voxtype (push-to-talk dictation) - not in Fedora repos, install the latest release
+    # Look the RPM up in the release's assets; upstream has renamed it before.
+    release = json.load(urllib.request.urlopen("https://api.github.com/repos/peteonrails/voxtype/releases/latest"))
+    rpm = next(a["browser_download_url"] for a in release["assets"] if a["name"].endswith(".x86_64.rpm"))
+    sh(f"curl -fsSL -o /tmp/voxtype.rpm {rpm}")
+    sh("sudo dnf install -y /tmp/voxtype.rpm")
 
 sh("flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo")
 sh(f"flatpak install -y {flatpaks}")
