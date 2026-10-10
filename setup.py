@@ -91,6 +91,11 @@ for link in config["links"]:
         sh(f"ln -sf {src} {dst}")
 sh("sudo chmod 644 /etc/firefox/policies/policies.json")
 
+# Apply the kernel keyboard mapping before voxtype opens the input devices.
+sh("sudo systemd-hwdb update")
+sh("sudo udevadm trigger --subsystem-match=input --sysname-match='event*'")
+sh("sudo udevadm settle")
+
 # voxtype services (daemon, plus the mouse push-to-talk relay where that mouse exists)
 if ok("command -v voxtype"):
     # voxtype reads the hotkey straight from /dev/input (takes effect at next login)
@@ -137,8 +142,8 @@ kb_paths = "[" + ", ".join(
 ) + "]"
 sh(f'gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "{kb_paths}"')
 
-# caps lock -> escape
-sh("gsettings set org.gnome.desktop.input-sources xkb-options \"['caps:escape']\"")
+# Caps Lock is now mapped to Escape in the kernel; clear the old GNOME mapping.
+sh("gsettings set org.gnome.desktop.input-sources xkb-options \"[]\"")
 
 # visuals
 sh("git clone https://github.com/Karmenzind/monaco-nerd-fonts /tmp/monaco-nerd-fonts || true")

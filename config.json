@@ -90,6 +90,7 @@
     { "src": "config/systemd/user/mouse-ptt-remap.service", "dst": "~/.config/systemd/user/mouse-ptt-remap.service" },
     { "src": "config/systemd/user/ydotoold.service", "dst": "~/.config/systemd/user/ydotoold.service" },
     { "src": "config/udev/70-uinput.rules",          "dst": "/etc/udev/rules.d/70-uinput.rules", "sudo": true },
+    { "src": "config/udev/90-voxtype-keyboard.hwdb", "dst": "/etc/udev/hwdb.d/90-voxtype-keyboard.hwdb", "sudo": true },
     { "src": "config/systemd/user/voxtype.service.d/gpu.conf", "dst": "~/.config/systemd/user/voxtype.service.d/gpu.conf", "desktop": true },
     { "src": "config/shell/command-not-found.bash",  "dst": "~/.local/share/bash/command-not-found.bash", "sudo": true },
     { "src": "config/firefox/policies.json",         "dst": "/etc/firefox/policies/policies.json", "sudo": true }
