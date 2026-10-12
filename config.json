@@ -2,8 +2,6 @@
   "packages": [
     { "arch": "neovim",                 "fedora": "neovim" },
     { "arch": "bash-completion",        "fedora": "bash-completion" },
-    { "arch": "mpv",                    "fedora": "mpv" },
-    { "arch": "mpv-mpris",              "fedora": "mpv-mpris" },
     { "arch": "flatpak",                "fedora": "flatpak" },
     { "arch": "gnome-shell",            "fedora": "gnome-shell" },
     { "arch": "papers",                 "fedora": "papers" },
@@ -79,9 +77,6 @@
     { "src": "config/nvim/init.lua",                 "dst": "~/.config/nvim/init.lua" },
     { "src": "config/nvim/after/queries/python/injections.scm", "dst": "~/.config/nvim/after/queries/python/injections.scm" },
     { "src": "config/newseum/feeds.csv",             "dst": "~/.config/newseum/feeds.csv" },
-    { "src": "config/mpv/input.conf",                "dst": "~/.config/mpv/input.conf" },
-    { "src": "config/mpv/mpv.conf",                "dst": "~/.config/mpv/mpv.conf" },
-    { "src": "config/mpv/scripts/nightcore.lua",     "dst": "~/.config/mpv/scripts/nightcore.lua" },
     { "src": "config/voxtype/config.toml",           "dst": "~/.config/voxtype/config.toml" },
     { "src": "config/agents/AGENTS.md",              "dst": "~/.config/agents/AGENTS.md" },
     { "src": "config/agents/AGENTS.md",              "dst": "~/.claude/AGENTS.md" },
@@ -97,9 +92,7 @@
     { "src": "config/shell/command-not-found.bash",  "dst": "~/.local/share/bash/command-not-found.bash", "sudo": true },
     { "src": "config/firefox/policies.json",         "dst": "/etc/firefox/policies/policies.json", "sudo": true }
   ],
-  "associations": {
-    "audio/mpeg": "mpv.desktop"
-  },
+  "associations": {},
   "gsettings": {
     "org.gnome.desktop.interface": {
       "enable-animations": "false",

@@ -1,3 +1,9 @@
+# non-interactive shells get nothing from here
+[[ $- != *i* ]] && return
+
+# system defaults: bash-completion, vte, PackageKit command-not-found
+[ -f /etc/bashrc ] && . /etc/bashrc
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias poweroff='sudo systemctl poweroff -i'
@@ -6,23 +12,8 @@ alias tree='tree -aC -I .git -I .venv'
 
 PS1="\[\e[1;31m\]\w\[\e[0m\] \$ "
 
-export PATH="/home/carter/.local/share/gem/ruby/3.4.0/bin:$HOME/.npm-global/bin:$PATH"
-source /etc/profile.d/vte.sh
-source /etc/profile.d/PackageKit.sh
-
 set -o vi
 shopt -s globstar
-
-export PATH="/usr/local/cuda/bin:$PATH"
-export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
-
-# opencode
-
-export DEVKITPRO=/opt/devkitpro
-export DEVKITARM=/opt/devkitpro/devkitARM
-export PATH=$DEVKITPRO/tools/bin:$PATH
-export ANDROID_HOME=$HOME/.android/sdk
-export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
 
 # history: large, no duplicates, and shared between open terminals right away
 HISTSIZE=100000

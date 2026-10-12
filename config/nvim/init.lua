@@ -2,7 +2,7 @@
 
 -- Install lazy.nvim if not already installed
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -57,11 +57,6 @@ vim.opt.swapfile = false
 vim.opt.autoread = true
 vim.opt.undofile = true
 vim.opt.foldenable = false
-local undodir = vim.fn.stdpath("config") .. "/undo"
-if vim.fn.isdirectory(undodir) == 0 then
-    vim.fn.mkdir(undodir, "p")
-end
-vim.opt.undodir = undodir
 vim.filetype.add({ extension = { ok = "python" } })
 
 -- Mouse configuration
@@ -154,14 +149,14 @@ require("lazy").setup({
       config = function()
 
         require("catppuccin").setup({
-          flavour = "mocha",
+          flavour = "macchiato",
           transparent_background = true,
           styles = {
             comments = { "italic" },
             keywords = {},
           }
         })
-        vim.cmd.colorscheme("catppuccin-macchiato")
+        vim.cmd.colorscheme("catppuccin")
       end
     },
 })

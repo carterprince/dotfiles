@@ -1,11 +1,13 @@
 [Unit]
 Description=Relay the mouse extra button to F14 for voxtype push-to-talk
+PartOf=graphical-session.target
+After=graphical-session.target
+StartLimitIntervalSec=0
 
 [Service]
 ExecStart=%h/.local/bin/mouse-ptt-remap
 Restart=always
 RestartSec=2
-StartLimitIntervalSec=0
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target
