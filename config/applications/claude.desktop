@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Claude
+GenericName=AI Coding Assistant
+Comment=Open Claude Code in a terminal
+Icon=claude
+Exec=ptyxis --new-window -d /home/carter -x /home/carter/.local/bin/claude
+Terminal=false
+Categories=Development;
+Keywords=claude;ai;anthropic;code;
+StartupNotify=true
