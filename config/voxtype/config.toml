@@ -9,7 +9,7 @@ model = "small"
 language = "en"
 threads = 8
 context_window_optimization = true
-initial_prompt = "voxtype, Neovim, WebDAV, libadwaita, reddit.com slash r slash linux, huggingface.co slash models, https://neocities.org slash signin, 308 Negra Arroyo Lane, Albuquerque, New Mexico\nso I talked to Mike about the GNOME release, and honestly, he thinks we should wait a bit longer. we can test it on Fedora next week, after the update lands. does that sound okay to you? sounds good to me\ncheck out config.toml in my dotfiles"
+initial_prompt = "voxtype, workdir, my workdir, Neovim, WebDAV, libadwaita, reddit.com slash r slash linux, huggingface.co slash models, https://neocities.org slash signin, 308 Negra Arroyo Lane, Albuquerque, New Mexico\nso I talked to Mike about the GNOME release, and honestly, he thinks we should wait a bit longer. we can test it on Fedora next week, after the update lands. does that sound okay to you? sounds good to me\ncheck out config.toml in my dotfiles"
 
 [hotkey]
 enabled = true
@@ -29,4 +29,5 @@ on_transcription = false
 # Spoken "colon", "slash" and "dot" become ":", "/" and "." (https colon slash slash reddit dot com slash r
 # slash linux -> https://reddit.com/r/linux; localhost colon 8080 -> localhost:8080), then drop the trailing
 # period. Punctuation Whisper puts right around the spoken word ("that, colon. you") is absorbed into it.
-command = '''sed -E 's/[,.;!?]?[[:space:]]*\<[Cc]olon\>[,.;!?]?/:/g; s/[,.;!?]?[[:space:]]*\<[Ss]lash\>[,.;!?]?[[:space:]]*/\//g; s/[,.;!?]?[[:space:]]*\<[Dd]ot\>[,.;!?]?[[:space:]]*/./g; s/:[[:space:]]+([0-9])/:\1/g; s/\.[[:space:]]*$//''''
+# "workdir" or "my workdir" is a placeholder for ~/.local/src/ (my workdir slash dotfiles -> ~/.local/src/dotfiles).
+command = '''sed -E 's#(\<[Mm]y )?\<[Ww]ork[ -]?dir\>#~/.local/src/#g; s/[,.;!?]?[[:space:]]*\<[Cc]olon\>[,.;!?]?/:/g; s/[,.;!?]?[[:space:]]*\<[Ss]lash\>[,.;!?]?[[:space:]]*/\//g; s/[,.;!?]?[[:space:]]*\<[Dd]ot\>[,.;!?]?[[:space:]]*/./g; s/:[[:space:]]+([0-9])/:\1/g; s#(~/\.local/src)/+#\1/#g; s/\.[[:space:]]*$//''''
