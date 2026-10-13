@@ -9,7 +9,7 @@ model = "small"
 language = "en"
 threads = 8
 context_window_optimization = true
-initial_prompt = "so I talked to Mike about the GNOME release, and honestly, he thinks we should wait a bit longer. we can test it on Fedora next week, after the update lands. does that sound okay to you? sounds good to me. voxtype, dotfiles, Neovim, WebDAV, libadwaita"
+initial_prompt = "voxtype, Neovim, WebDAV, libadwaita, reddit.com/r/linux, huggingface.co/models, ~/.local/src/\nso I talked to Mike about the GNOME release, and honestly, he thinks we should wait a bit longer. we can test it on Fedora next week, after the update lands. does that sound okay to you? sounds good to me\ncheck out config.toml in my dotfiles"
 
 [hotkey]
 enabled = true
@@ -26,4 +26,7 @@ on_recording_start = false
 on_transcription = false
 
 [output.post_process]
-command = '''sed -E 's/\.[[:space:]]*$//''''
+# Spoken "colon", "slash" and "dot" become ":", "/" and "." (https colon slash slash reddit dot com slash r
+# slash linux -> https://reddit.com/r/linux; localhost colon 8080 -> localhost:8080), then drop the trailing
+# period. Punctuation Whisper puts right around the spoken word ("that, colon. you") is absorbed into it.
+command = '''sed -E 's/[,.;!?]?[[:space:]]*\<[Cc]olon\>[,.;!?]?/:/g; s/[,.;!?]?[[:space:]]*\<[Ss]lash\>[,.;!?]?[[:space:]]*/\//g; s/[,.;!?]?[[:space:]]*\<[Dd]ot\>[,.;!?]?[[:space:]]*/./g; s/:[[:space:]]+([0-9])/:\1/g; s/\.[[:space:]]*$//''''
