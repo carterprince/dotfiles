@@ -9,7 +9,7 @@ model = "small"
 language = "en"
 threads = 8
 context_window_optimization = true
-initial_prompt = "voxtype, Neovim, WebDAV, libadwaita, reddit.com slash r slash linux, huggingface.co slash models, https://neocities.org slash signin, 308 Negra Arroyo Lane, Albuquerque, New Mexico, ~ slash .local slash src slash\nso I talked to Mike about the GNOME release, and honestly, he thinks we should wait a bit longer. we can test it on Fedora next week, after the update lands. does that sound okay to you? sounds good to me\ncheck out config.toml in my dotfiles"
+initial_prompt = "voxtype, Neovim, WebDAV, libadwaita, reddit.com slash r slash linux, huggingface.co slash models, https://neocities.org slash signin, 308 Negra Arroyo Lane, Albuquerque, New Mexico\nso I talked to Mike about the GNOME release, and honestly, he thinks we should wait a bit longer. we can test it on Fedora next week, after the update lands. does that sound okay to you? sounds good to me\ncheck out config.toml in my dotfiles"
 
 [hotkey]
 enabled = true
