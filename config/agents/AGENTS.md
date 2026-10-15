@@ -21,3 +21,4 @@
 ## Dotfiles
 
 - The user's dotfiles are located in `~/.local/src/dotfiles/`.
+- Generally speaking, when the user asks you to make a new project, do so in a new directory in `~/.local/src/`, unless they say otherwise.
