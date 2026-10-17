@@ -11,7 +11,7 @@ threads = 8
 # Desktop disables this in gpu.conf (--no-whisper-context-optimization): on the GPU it costs ~20 ms and
 # stops Whisper doubling short clips ("commit and push commit and push"). Kept on here for CPU speed.
 context_window_optimization = true
-initial_prompt = "voxtype, workdir, my workdir, Neovim, WebDAV, libadwaita, reddit.com slash r slash linux, huggingface.co slash models, https://neocities.org slash signin, 308 Negra Arroyo Lane, Albuquerque, New Mexico\ncommit and push\nso I talked to Mike about the GNOME release, and honestly, he thinks we should wait a bit longer. we can test it on Fedora next week, after the update lands. does that sound okay to you? sounds good to me\ncheck out config.toml in my dotfiles\nwhen did the Romans realize that their empire was really declining?"
+initial_prompt = "voxtype, workdir, my workdir, Neovim, WebDAV, libadwaita, reddit.com slash r slash linux, huggingface.co slash models, https://neocities.org slash signin, 308 Negra Arroyo Lane, Albuquerque, New Mexico\ncommit and push\nso I talked to Mike about the GNOME release, and honestly, he thinks we should wait a bit longer. we can test it on Fedora next week, after the update lands. does that sound okay to you? sounds good to me\ncheck out config.toml in my dotfiles\nwhen did the Romans realize that their empire was really declining?\nhave you ever played Kingdom Come: Deliverance?"
 
 [hotkey]
 enabled = true
