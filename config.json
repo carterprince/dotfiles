@@ -47,6 +47,7 @@
     { "arch": "libadwaita",             "fedora": "libadwaita-devel" },
     { "arch": "glib2",                  "fedora": "glib2-devel" },
     { "arch": "gstreamer",              "fedora": "gstreamer1-devel" },
+    { "arch": "gst-plugins-base",       "fedora": "gstreamer1-plugins-base" },
     { "arch": "gst-plugins-good",       "fedora": "gstreamer1-plugins-good" },
     { "arch": "gst-plugins-bad",        "fedora": "gstreamer1-plugins-bad-free" },
     { "arch": "yt-dlp",                 "fedora": "yt-dlp" },
@@ -120,7 +121,7 @@
       "picture-uri-dark": "'file://$DOTFILES/share/wallpaper.png'"
     },
     "org.gnome.shell": {
-      "favorite-apps": "['org.gnome.Nautilus.desktop', 'org.gnome.Ptyxis.desktop', 'io.github.oxidance.Oxidance.desktop', 'org.mozilla.firefox.desktop', 'io.github.hematite.Editor.desktop']"
+      "favorite-apps": "['org.gnome.Nautilus.desktop', 'org.gnome.Ptyxis.desktop', 'io.github.oxidance.Oxidance.desktop', 'org.mozilla.firefox.desktop', 'io.github.hematite.Editor.desktop', 'io.github.carterprince.Newseum.desktop']"
     },
     "org.gnome.Ptyxis": {
       "default-profile-uuid": "'profile0'",
@@ -136,7 +137,7 @@
   "keybindings": [
     { "name": "Launch Terminal", "command": "ptyxis --new-window",                        "binding": "<Alt>Return" },
     { "name": "Launch Music",    "command": "oxidance",                                    "binding": "<Alt>m" },
-    { "name": "Launch Newseum",  "command": "gtk-launch newseum",                          "binding": "<Alt>n" },
+    { "name": "Launch Newseum",  "command": "newseum",                                     "binding": "<Alt>n" },
     { "name": "Launch Notes",    "command": "hematite",                                    "binding": "<Alt>o" }
   ]
 }

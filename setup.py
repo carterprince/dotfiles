@@ -67,7 +67,7 @@ for tool in tools:
     sh(f"uv tool install {tool}")
 
 # apps built from source (dependencies are in config.json)
-for app in ["oxidance", "hematite"]:
+for app in ["oxidance", "hematite", "newseum-rs"]:
     src = f"{HOME}/.local/src/{app}"
     if not ok(f"test -d {src}"):
         sh(f"git clone https://github.com/carterprince/{app} {src}")
